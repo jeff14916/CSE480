@@ -1,0 +1,6 @@
+.content {
+    display: flex;
+    padding: 24px 48px 48px 48px;
+    justify-content: center;
+    align-items: center;
+}
