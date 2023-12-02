@@ -1,6 +1,6 @@
 {
   "auth": {
-    "cse480526a8cb4": {
+    "cse480549a88fc": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -13,8 +13,7 @@
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
-          "EMAIL",
-          "NICKNAME"
+          "EMAIL"
         ],
         "socialProviders": [],
         "usernameAttributes": [

@@ -7,27 +7,35 @@ import Camera from "./routes/Camera";
 import RecommendationService from "./routes/RecommendationService";
 import Photography from "./routes/Photography";
 import PhotoGallery from "./routes/PhotoGallery";
+import LoginPage from "./routes/LoginPage";
+import { AuthProvider } from "./AuthContext";
 
 function App() {
 	return (
 		<div className={styles.App}>
-			<BrowserRouter>
-				<Header />
-				<Routes>
-					<Route path="/" element={<Home />}></Route>
-					<Route path="/camera" element={<Camera />}></Route>
-					<Route
-						path="/recommand"
-						element={<RecommendationService />}
-					></Route>
-					<Route
-						path="/photography"
-						element={<Photography />}
-					></Route>
-					<Route path="/gallery" element={<PhotoGallery />}></Route>
-					<Route path="*"></Route>
-				</Routes>
-			</BrowserRouter>
+			<AuthProvider>
+				<BrowserRouter>
+					<Header />
+					<Routes>
+						<Route path="/" element={<Home />}></Route>
+						<Route path="/camera" element={<Camera />}></Route>
+						<Route
+							path="/recommand"
+							element={<RecommendationService />}
+						></Route>
+						<Route
+							path="/photography"
+							element={<Photography />}
+						></Route>
+						<Route
+							path="/gallery"
+							element={<PhotoGallery />}
+						></Route>
+						<Route path="/login" element={<LoginPage />}></Route>
+						<Route path="*"></Route>
+					</Routes>
+				</BrowserRouter>
+			</AuthProvider>
 		</div>
 	);
 }

@@ -1,12 +1,37 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
+import { useAuth } from "../AuthContext";
+import { Button } from "@aws-amplify/ui-react";
+import { signOut } from "aws-amplify/auth";
 
 const Header = () => {
 	const logo_txt = "All about Camera:\nFor Beginners";
 
+	const { isAuthenticated, setAuthStatus } = useAuth();
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	// Construct the returnURL
+	const returnURL = location.pathname;
+
+	const handleLogout = async () => {
+		try {
+			await signOut();
+			setAuthStatus(false);
+			alert("Logout Success!");
+			window.location.reload();
+		} catch (error) {
+			console.error("Error during logout", error);
+		}
+	};
+	const handleLogin = () => {
+		navigate(`/login?returnURL=${returnURL}`);
+	};
+
 	return (
 		<header className={styles.header}>
+			{isAuthenticated ? "hello" : "fuckyou"}
 			<div className={styles.contents}>
 				<Link to="/" className={styles.logo}>
 					<h1 className={styles.logo_txt}>{logo_txt}</h1>
@@ -27,7 +52,15 @@ const Header = () => {
 						</Link>
 					</ul>
 				</nav>
-				<div className={styles.signInBtn}>Sign in</div>
+				{isAuthenticated ? (
+					<Button onClick={handleLogout} className={styles.signInBtn}>
+						Logout
+					</Button>
+				) : (
+					<Button onClick={handleLogin} className={styles.signInBtn}>
+						Login
+					</Button>
+				)}
 			</div>
 		</header>
 	);
