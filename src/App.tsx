@@ -7,7 +7,8 @@ import Camera from "./routes/Camera";
 import RecommendationService from "./routes/RecommendationService";
 import Photography from "./routes/Photography";
 import PhotoGallery from "./routes/PhotoGallery";
-import LoginPage from "./LoginPage";
+import LoginPage from "./routes/LoginPage";
+import SignUpPage from "./routes/SignUpPage";
 import { AuthProvider } from "./AuthContext";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
 							element={<PhotoGallery />}
 						></Route>
 						<Route path="/login" element={<LoginPage />}></Route>
+						<Route path="/signup" element={<SignUpPage />}></Route>
 						<Route path="*"></Route>
 					</Routes>
 				</BrowserRouter>

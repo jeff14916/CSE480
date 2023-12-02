@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Amplify } from "aws-amplify";
 import { signIn } from "aws-amplify/auth";
 import "@aws-amplify/ui-react/styles.css";
-import config from "./amplifyconfiguration.json";
+import config from "../amplifyconfiguration.json";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../AuthContext";
 Amplify.configure(config);
 
 const LoginPage = () => {
@@ -31,13 +31,19 @@ const LoginPage = () => {
 				password,
 			});
 			setAuthStatus(true);
-			alert("Log in Success!");
+			alert("Login Success!");
 			navigate(returnURL || "/");
-		} catch (error) {}
+		} catch (error) {
+			alert("Login Failed!");
+			window.location.reload();
+		}
+	};
+	const Signup = () => {
+		navigate(`/signup?returnURL=${returnURL}`);
 	};
 
 	return (
-		<div className="login-container">
+		<div className="container">
 			<h1>Login</h1>
 			<label htmlFor="email">Email:</label>
 			<input
@@ -56,6 +62,7 @@ const LoginPage = () => {
 				onChange={(e) => setPassword(e.target.value)}
 			/>
 			<button onClick={Login}>Sign In</button>
+			<button onClick={Signup}>Sign Up</button>
 		</div>
 	);
 };
