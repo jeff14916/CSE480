@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Amplify } from "aws-amplify";
 import { signIn } from "aws-amplify/auth";
 import "@aws-amplify/ui-react/styles.css";
-import config from "../amplifyconfiguration.json";
+import config from "./amplifyconfiguration.json";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "./AuthContext";
 Amplify.configure(config);
 
 const LoginPage = () => {

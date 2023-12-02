@@ -7,7 +7,7 @@ import Camera from "./routes/Camera";
 import RecommendationService from "./routes/RecommendationService";
 import Photography from "./routes/Photography";
 import PhotoGallery from "./routes/PhotoGallery";
-import LoginPage from "./routes/LoginPage";
+import LoginPage from "./LoginPage";
 import { AuthProvider } from "./AuthContext";
 
 function App() {
