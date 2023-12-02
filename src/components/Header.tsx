@@ -30,39 +30,47 @@ const Header = () => {
 	};
 
 	return (
-		<header className={styles.header}>
-			{isAuthenticated ? "hello" : "fuckyou"}
-			<div className={styles.contents}>
-				<Link to="/" className={styles.logo}>
-					<h1 className={styles.logo_txt}>{logo_txt}</h1>
-				</Link>
-				<nav className={styles.navigation}>
-					<ul className={styles.navul}>
-						<Link to="/camera" className={styles.navli}>
-							Camera
-						</Link>
-						<Link to="recommend" className={styles.navli}>
-							Recommendation Service
-						</Link>
-						<Link to="photography" className={styles.navli}>
-							Photography
-						</Link>
-						<Link to="gallery" className={styles.navli}>
-							Photo Gallery
-						</Link>
-					</ul>
-				</nav>
-				{isAuthenticated ? (
-					<Button onClick={handleLogout} className={styles.signInBtn}>
-						Logout
-					</Button>
-				) : (
-					<Button onClick={handleLogin} className={styles.signInBtn}>
-						Login
-					</Button>
-				)}
-			</div>
-		</header>
+		<div>
+			<header className={styles.header}>
+				<div className={styles.contents}>
+					<Link to="/" className={styles.logo}>
+						<h1 className={styles.logo_txt}>{logo_txt}</h1>
+					</Link>
+					<nav className={styles.navigation}>
+						<ul className={styles.navul}>
+							<Link to="/camera" className={styles.navli}>
+								Camera
+							</Link>
+							<Link to="recommend" className={styles.navli}>
+								Recommendation Service
+							</Link>
+							<Link to="photography" className={styles.navli}>
+								Photography
+							</Link>
+							<Link to="gallery" className={styles.navli}>
+								Photo Gallery
+							</Link>
+						</ul>
+					</nav>
+					{isAuthenticated ? (
+						<Button
+							onClick={handleLogout}
+							className={styles.signInBtn}
+						>
+							Logout
+						</Button>
+					) : (
+						<Button
+							onClick={handleLogin}
+							className={styles.signInBtn}
+						>
+							Login
+						</Button>
+					)}
+				</div>
+			</header>
+			<div className={styles.ww}></div>
+		</div>
 	);
 };
 

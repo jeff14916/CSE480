@@ -7,12 +7,14 @@
 	z-index: 999;
 	background-color: white;
 }
-
+.ww {
+	padding: 25px;
+}
 .contents {
 	display: flex;
-	width: 96%;
+	width: 100%;
 	max-width: 1100px;
-	height: 100px;
+	height: 150px;
 	margin: 0 auto;
 	align-items: center;
 	justify-content: space-between;
@@ -49,4 +51,8 @@
 	border: 1px solid black;
 	text-decoration: none;
 	color: black;
+}
+.signInBtn:hover,
+.signInBtn.focus {
+	transform: scale(1.1);
 }
