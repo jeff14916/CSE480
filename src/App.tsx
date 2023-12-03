@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Home from "./routes/Home";
 import Camera from "./routes/Camera";
 import RecommendationService from "./routes/RecommendationService";
+import RecommendationTest from "./routes/RecommendationTest";
 import Photography from "./routes/Photography";
 import PhotoGallery from "./routes/PhotoGallery";
 import LoginPage from "./routes/LoginPage";
@@ -21,8 +22,12 @@ function App() {
 						<Route path="/" element={<Home />}></Route>
 						<Route path="/camera" element={<Camera />}></Route>
 						<Route
-							path="/recommand"
+							path="/recommend"
 							element={<RecommendationService />}
+						></Route>
+						<Route
+							path="/recommend/test"
+							element={<RecommendationTest />}
 						></Route>
 						<Route
 							path="/photography"

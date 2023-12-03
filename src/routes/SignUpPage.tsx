@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Amplify } from "aws-amplify";
 import { signUp } from "aws-amplify/auth";
 import { confirmSignUp } from "aws-amplify/auth";
-import { autoSignIn } from "aws-amplify/auth";
 import "@aws-amplify/ui-react/styles.css";
 import config from "../amplifyconfiguration.json";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-import { sign } from "crypto";
-import { isElementAccessExpression } from "typescript";
 Amplify.configure(config);
 
 const SignUpPage = () => {
@@ -19,7 +16,7 @@ const SignUpPage = () => {
 	const [vcode, setVcode] = useState("");
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { isAuthenticated, setAuthStatus } = useAuth();
+	const { isAuthenticated } = useAuth();
 	const queryParams = new URLSearchParams(location.search);
 	const returnURL = queryParams.get("returnURL");
 	useEffect(() => {
