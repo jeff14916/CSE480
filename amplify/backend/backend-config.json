@@ -1,20 +1,5 @@
 {
-  "api": {
-    "recommend": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "recommend1"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    }
-  },
+  "api": {},
   "auth": {
     "cse480549a88fc": {
       "customAuth": false,
@@ -43,49 +28,6 @@
       "service": "Cognito"
     }
   },
-  "function": {
-    "recommend1": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributeEnvMap": {
-            "Arn": "TABLE_ARN",
-            "Name": "TABLE_NAME"
-          },
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "storage",
-          "resourceName": "recommendation"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_recommend1_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "recommend1"
-        }
-      ]
-    },
-    "AMPLIFY_function_recommend1_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "recommend1"
-        }
-      ]
-    }
-  },
-  "storage": {
-    "recommendation": {
-      "providerPlugin": "awscloudformation",
-      "service": "DynamoDB"
-    }
-  }
+  "function": {},
+  "storage": {}
 }

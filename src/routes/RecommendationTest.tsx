@@ -11,7 +11,7 @@ const RecommendationTest = () => {
 	const onSubmit = async (data: any) => {
 		try {
 			const response = await axios.post(
-				"https://your-api-gateway-url",
+				"https://6viz29u4l2.execute-api.ap-northeast-2.amazonaws.com/staging",
 				{
 					formData: data,
 				},

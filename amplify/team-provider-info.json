@@ -15,18 +15,6 @@
     "categories": {
       "auth": {
         "cse480549a88fc": {}
-      },
-      "function": {
-        "recommend1": {
-          "deploymentBucketName": "amplify-amplify99093f48893e4-staging-125543-deployment",
-          "s3Key": "amplify-builds/recommend1-6e30536168573178316e-build.zip"
-        }
-      },
-      "storage": {
-        "recommendation": {}
-      },
-      "api": {
-        "recommend": {}
       }
     }
   }
