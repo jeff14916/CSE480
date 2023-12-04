@@ -7,9 +7,16 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { StorageManager } from "@aws-amplify/ui-react-storage";
+import {
+  fetchByPath,
+  getOverrideProps,
+  processFile,
+  validateField,
+} from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createGallery } from "../graphql/mutations";
+import { Field } from "@aws-amplify/ui-react/internal";
 const client = generateClient();
 export default function GalleryCreateForm(props) {
   const {
@@ -17,40 +24,33 @@ export default function GalleryCreateForm(props) {
     onSuccess,
     onError,
     onSubmit,
+    onCancel,
     onValidate,
     onChange,
     overrides,
     ...rest
   } = props;
   const initialValues = {
-    nickname: "",
-    imageurl: "",
+    imageurl: undefined,
     title: "",
     description: "",
-    timestamp: "",
   };
-  const [nickname, setNickname] = React.useState(initialValues.nickname);
   const [imageurl, setImageurl] = React.useState(initialValues.imageurl);
   const [title, setTitle] = React.useState(initialValues.title);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [timestamp, setTimestamp] = React.useState(initialValues.timestamp);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setNickname(initialValues.nickname);
     setImageurl(initialValues.imageurl);
     setTitle(initialValues.title);
     setDescription(initialValues.description);
-    setTimestamp(initialValues.timestamp);
     setErrors({});
   };
   const validations = {
-    nickname: [],
     imageurl: [{ type: "Required" }],
     title: [{ type: "Required" }],
     description: [],
-    timestamp: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -78,11 +78,9 @@ export default function GalleryCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          nickname,
           imageurl,
           title,
           description,
-          timestamp,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -136,64 +134,65 @@ export default function GalleryCreateForm(props) {
       {...getOverrideProps(overrides, "GalleryCreateForm")}
       {...rest}
     >
-      <TextField
-        label="Nickname"
-        isRequired={false}
-        isReadOnly={false}
-        value={nickname}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              nickname: value,
-              imageurl,
-              title,
-              description,
-              timestamp,
-            };
-            const result = onChange(modelFields);
-            value = result?.nickname ?? value;
-          }
-          if (errors.nickname?.hasError) {
-            runValidationTasks("nickname", value);
-          }
-          setNickname(value);
-        }}
-        onBlur={() => runValidationTasks("nickname", nickname)}
-        errorMessage={errors.nickname?.errorMessage}
-        hasError={errors.nickname?.hasError}
-        {...getOverrideProps(overrides, "nickname")}
-      ></TextField>
-      <TextField
-        label="Imageurl"
-        isRequired={true}
-        isReadOnly={false}
-        value={imageurl}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              nickname,
-              imageurl: value,
-              title,
-              description,
-              timestamp,
-            };
-            const result = onChange(modelFields);
-            value = result?.imageurl ?? value;
-          }
-          if (errors.imageurl?.hasError) {
-            runValidationTasks("imageurl", value);
-          }
-          setImageurl(value);
-        }}
-        onBlur={() => runValidationTasks("imageurl", imageurl)}
+      <Field
         errorMessage={errors.imageurl?.errorMessage}
         hasError={errors.imageurl?.hasError}
-        {...getOverrideProps(overrides, "imageurl")}
-      ></TextField>
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Upload image</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
+        isRequired={true}
+        isReadOnly={false}
+      >
+        <StorageManager
+          onUploadSuccess={({ key }) => {
+            setImageurl((prev) => {
+              let value = key;
+              if (onChange) {
+                const modelFields = {
+                  imageurl: value,
+                  title,
+                  description,
+                };
+                const result = onChange(modelFields);
+                value = result?.imageurl ?? value;
+              }
+              return value;
+            });
+          }}
+          onFileRemove={({ key }) => {
+            setImageurl((prev) => {
+              let value = initialValues?.imageurl;
+              if (onChange) {
+                const modelFields = {
+                  imageurl: value,
+                  title,
+                  description,
+                };
+                const result = onChange(modelFields);
+                value = result?.imageurl ?? value;
+              }
+              return value;
+            });
+          }}
+          processFile={processFile}
+          accessLevel={"private"}
+          acceptedFileTypes={["image/*"]}
+          isResumable={false}
+          showThumbnails={true}
+          maxFileCount={1}
+          {...getOverrideProps(overrides, "imageurl")}
+        ></StorageManager>
+      </Field>
       <TextField
-        label="Title"
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Title</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
         isRequired={true}
         isReadOnly={false}
         value={title}
@@ -201,11 +200,9 @@ export default function GalleryCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              nickname,
               imageurl,
               title: value,
               description,
-              timestamp,
             };
             const result = onChange(modelFields);
             value = result?.title ?? value;
@@ -229,11 +226,9 @@ export default function GalleryCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              nickname,
               imageurl,
               title,
               description: value,
-              timestamp,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -247,34 +242,6 @@ export default function GalleryCreateForm(props) {
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
-      ></TextField>
-      <TextField
-        label="Timestamp"
-        isRequired={true}
-        isReadOnly={false}
-        value={timestamp}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              nickname,
-              imageurl,
-              title,
-              description,
-              timestamp: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.timestamp ?? value;
-          }
-          if (errors.timestamp?.hasError) {
-            runValidationTasks("timestamp", value);
-          }
-          setTimestamp(value);
-        }}
-        onBlur={() => runValidationTasks("timestamp", timestamp)}
-        errorMessage={errors.timestamp?.errorMessage}
-        hasError={errors.timestamp?.hasError}
-        {...getOverrideProps(overrides, "timestamp")}
       ></TextField>
       <Flex
         justifyContent="space-between"
@@ -293,6 +260,14 @@ export default function GalleryCreateForm(props) {
           gap="15px"
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
         >
+          <Button
+            children="Cancel"
+            type="button"
+            onClick={() => {
+              onCancel && onCancel();
+            }}
+            {...getOverrideProps(overrides, "CancelButton")}
+          ></Button>
           <Button
             children="Submit"
             type="submit"
