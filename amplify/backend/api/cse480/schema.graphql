@@ -1,8 +1,17 @@
-type Gallery @model @auth(rules: [{allow: public}]) {
-  id: String!
-  nickname: String!
-  imageurl: String!
-  title: String!
-  description: String
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+type Gallery
+	@model
+	@auth(
+		rules: [
+			{ allow: owner, operations: [create, read, update, delete] }
+			{ allow: private, operations: [read] }
+		]
+	) {
+	id: ID!
+	nickname: String
+	imageurl: String!
+	title: String!
+	description: String
+	timestamp: String!
 }
- 

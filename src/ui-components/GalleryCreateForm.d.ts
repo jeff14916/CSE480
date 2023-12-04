@@ -22,27 +22,27 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type GalleryCreateFormInputValues = {
-    id?: string;
     nickname?: string;
     imageurl?: string;
     title?: string;
     description?: string;
+    timestamp?: string;
 };
 export declare type GalleryCreateFormValidationValues = {
-    id?: ValidationFunction<string>;
     nickname?: ValidationFunction<string>;
     imageurl?: ValidationFunction<string>;
     title?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
+    timestamp?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type GalleryCreateFormOverridesProps = {
     GalleryCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    id?: PrimitiveOverrideProps<TextFieldProps>;
     nickname?: PrimitiveOverrideProps<TextFieldProps>;
     imageurl?: PrimitiveOverrideProps<TextFieldProps>;
     title?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
+    timestamp?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type GalleryCreateFormProps = React.PropsWithChildren<{
     overrides?: GalleryCreateFormOverridesProps | undefined | null;

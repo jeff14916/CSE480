@@ -8,12 +8,13 @@ export const createGallery = /* GraphQL */ `
 	) {
 		createGallery(input: $input, condition: $condition) {
 			id
-			nickname
 			imageurl
 			title
 			description
+			timestamp
 			createdAt
 			updatedAt
+			owner
 			__typename
 		}
 	}
@@ -25,12 +26,13 @@ export const updateGallery = /* GraphQL */ `
 	) {
 		updateGallery(input: $input, condition: $condition) {
 			id
-			nickname
 			imageurl
 			title
 			description
+			timestamp
 			createdAt
 			updatedAt
+			owner
 			__typename
 		}
 	}
@@ -42,12 +44,13 @@ export const deleteGallery = /* GraphQL */ `
 	) {
 		deleteGallery(input: $input, condition: $condition) {
 			id
-			nickname
 			imageurl
 			title
 			description
+			timestamp
 			createdAt
 			updatedAt
+			owner
 			__typename
 		}
 	}

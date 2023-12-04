@@ -5,31 +5,33 @@ export const getGallery = /* GraphQL */ `
 	query GetGallery($id: ID!) {
 		getGallery(id: $id) {
 			id
-			nickname
 			imageurl
 			title
 			description
+			timestamp
 			createdAt
 			updatedAt
+			owner
 			__typename
 		}
 	}
 `;
-export const listGallerys = /* GraphQL */ `
-	query ListGallerys(
+export const listGalleries = /* GraphQL */ `
+	query ListGalleries(
 		$filter: ModelGalleryFilterInput
 		$limit: Int
 		$nextToken: String
 	) {
-		listGallerys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+		listGalleries(filter: $filter, limit: $limit, nextToken: $nextToken) {
 			items {
 				id
-				nickname
 				imageurl
 				title
 				description
+				timestamp
 				createdAt
 				updatedAt
+				owner
 				__typename
 			}
 			nextToken

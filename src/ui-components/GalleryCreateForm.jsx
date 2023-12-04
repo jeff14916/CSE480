@@ -23,34 +23,34 @@ export default function GalleryCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    id: "",
     nickname: "",
     imageurl: "",
     title: "",
     description: "",
+    timestamp: "",
   };
-  const [id, setId] = React.useState(initialValues.id);
   const [nickname, setNickname] = React.useState(initialValues.nickname);
   const [imageurl, setImageurl] = React.useState(initialValues.imageurl);
   const [title, setTitle] = React.useState(initialValues.title);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
+  const [timestamp, setTimestamp] = React.useState(initialValues.timestamp);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setId(initialValues.id);
     setNickname(initialValues.nickname);
     setImageurl(initialValues.imageurl);
     setTitle(initialValues.title);
     setDescription(initialValues.description);
+    setTimestamp(initialValues.timestamp);
     setErrors({});
   };
   const validations = {
-    id: [{ type: "Required" }],
-    nickname: [{ type: "Required" }],
+    nickname: [],
     imageurl: [{ type: "Required" }],
     title: [{ type: "Required" }],
     description: [],
+    timestamp: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -78,11 +78,11 @@ export default function GalleryCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          id,
           nickname,
           imageurl,
           title,
           description,
+          timestamp,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -137,47 +137,19 @@ export default function GalleryCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Id"
-        isRequired={true}
-        isReadOnly={false}
-        value={id}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              id: value,
-              nickname,
-              imageurl,
-              title,
-              description,
-            };
-            const result = onChange(modelFields);
-            value = result?.id ?? value;
-          }
-          if (errors.id?.hasError) {
-            runValidationTasks("id", value);
-          }
-          setId(value);
-        }}
-        onBlur={() => runValidationTasks("id", id)}
-        errorMessage={errors.id?.errorMessage}
-        hasError={errors.id?.hasError}
-        {...getOverrideProps(overrides, "id")}
-      ></TextField>
-      <TextField
         label="Nickname"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={nickname}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              id,
               nickname: value,
               imageurl,
               title,
               description,
+              timestamp,
             };
             const result = onChange(modelFields);
             value = result?.nickname ?? value;
@@ -201,11 +173,11 @@ export default function GalleryCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              id,
               nickname,
               imageurl: value,
               title,
               description,
+              timestamp,
             };
             const result = onChange(modelFields);
             value = result?.imageurl ?? value;
@@ -229,11 +201,11 @@ export default function GalleryCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              id,
               nickname,
               imageurl,
               title: value,
               description,
+              timestamp,
             };
             const result = onChange(modelFields);
             value = result?.title ?? value;
@@ -257,11 +229,11 @@ export default function GalleryCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              id,
               nickname,
               imageurl,
               title,
               description: value,
+              timestamp,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -275,6 +247,34 @@ export default function GalleryCreateForm(props) {
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
+      ></TextField>
+      <TextField
+        label="Timestamp"
+        isRequired={true}
+        isReadOnly={false}
+        value={timestamp}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              nickname,
+              imageurl,
+              title,
+              description,
+              timestamp: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.timestamp ?? value;
+          }
+          if (errors.timestamp?.hasError) {
+            runValidationTasks("timestamp", value);
+          }
+          setTimestamp(value);
+        }}
+        onBlur={() => runValidationTasks("timestamp", timestamp)}
+        errorMessage={errors.timestamp?.errorMessage}
+        hasError={errors.timestamp?.hasError}
+        {...getOverrideProps(overrides, "timestamp")}
       ></TextField>
       <Flex
         justifyContent="space-between"

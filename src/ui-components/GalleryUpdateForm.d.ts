@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { Gallery } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -22,33 +23,33 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type GalleryUpdateFormInputValues = {
-    id?: string;
     nickname?: string;
     imageurl?: string;
     title?: string;
     description?: string;
+    timestamp?: string;
 };
 export declare type GalleryUpdateFormValidationValues = {
-    id?: ValidationFunction<string>;
     nickname?: ValidationFunction<string>;
     imageurl?: ValidationFunction<string>;
     title?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
+    timestamp?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type GalleryUpdateFormOverridesProps = {
     GalleryUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    id?: PrimitiveOverrideProps<TextFieldProps>;
     nickname?: PrimitiveOverrideProps<TextFieldProps>;
     imageurl?: PrimitiveOverrideProps<TextFieldProps>;
     title?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
+    timestamp?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type GalleryUpdateFormProps = React.PropsWithChildren<{
     overrides?: GalleryUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    gallery?: any;
+    gallery?: Gallery;
     onSubmit?: (fields: GalleryUpdateFormInputValues) => GalleryUpdateFormInputValues;
     onSuccess?: (fields: GalleryUpdateFormInputValues) => void;
     onError?: (fields: GalleryUpdateFormInputValues, errorMessage: string) => void;
