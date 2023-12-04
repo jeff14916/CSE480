@@ -22,5 +22,19 @@
   },
   "aws_cognito_verification_mechanisms": [
     "EMAIL"
+  ],
+  "aws_dynamodb_all_tables_region": "ap-northeast-2",
+  "aws_dynamodb_table_schemas": [
+    {
+      "tableName": "recommendation-staging",
+      "region": "ap-northeast-2"
+    }
+  ],
+  "aws_cloud_logic_custom": [
+    {
+      "name": "recommend",
+      "endpoint": "https://6viz29u4l2.execute-api.ap-northeast-2.amazonaws.com/staging",
+      "region": "ap-northeast-2"
+    }
   ]
 }

@@ -1,0 +1,14 @@
+{
+  "resourceName": "recommendation",
+  "tableName": "recommendation",
+  "partitionKey": {
+    "fieldName": "userID",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "recommmendID",
+    "fieldType": "number"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

@@ -2,14 +2,30 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./RecommendationTest.module.css";
+import axios from "axios";
 
 const RecommendationTest = () => {
 	const { register, handleSubmit } = useForm();
 	const navigate = useNavigate();
 
-	const onSubmit = (data: any) => {
-		//result
-		navigate("/recommend/result");
+	const onSubmit = async (data: any) => {
+		try {
+			const response = await axios.post(
+				"https://your-api-gateway-url",
+				{
+					formData: data,
+				},
+				{
+					headers: {
+						Authorization: "Bearer YOUR_COGNITO_TOKEN", // Replace with the actual token
+					},
+				}
+			);
+
+			navigate("/recommend/result", { state: { result: response.data } });
+		} catch (error) {
+			console.error("Error sending data to backend", error);
+		}
 	};
 
 	return (
