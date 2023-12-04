@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "@aws-amplify/ui-react/styles.css";
 import { generateClient } from "aws-amplify/api";
-import { listGalleries } from "../graphql/queries";
+import { galleryByDate } from "../graphql/queries";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 import { GalleryCreateForm } from "../ui-components";
 import styles from "./PhotoGallery.module.css";
 import { getUrl, GetUrlInput } from "@aws-amplify/storage";
-import { Gallery } from "../API";
+import { Gallery, ModelSortDirection } from "../API";
 
 const client = generateClient();
 let IMAGES_PER_PAGE = 6;
@@ -41,9 +41,13 @@ const PhotoGallery = () => {
 		const fetchGallery = async () => {
 			try {
 				const resp = await client.graphql({
-					query: listGalleries,
+					query: galleryByDate,
+					variables: {
+						dummy: "CONST",
+						sortDirection: ModelSortDirection.DESC,
+					},
 				});
-				setresponse(resp.data.listGalleries.items);
+				setresponse(resp.data.galleryByDate.items);
 				if (response) {
 					for (let i = 0; i < response.length; i++) {
 						response[i].imageurl = await getURL(
@@ -109,6 +113,7 @@ const PhotoGallery = () => {
 								...fields,
 								timestamp: currentTimestamp,
 								nickname: currentnickname,
+								dummy: "CONST",
 							};
 							return updatedFields;
 						}}

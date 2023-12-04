@@ -180,8 +180,8 @@ export default function GalleryCreateForm(props) {
           processFile={processFile}
           accessLevel={"private"}
           acceptedFileTypes={["image/*"]}
-          isResumable={false}
-          showThumbnails={true}
+          isResumable={true}
+          showThumbnails={false}
           maxFileCount={1}
           {...getOverrideProps(overrides, "imageurl")}
         ></StorageManager>

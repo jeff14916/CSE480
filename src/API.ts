@@ -4,6 +4,7 @@
 
 export type CreateGalleryInput = {
   id?: string | null,
+  dummy: string,
   nickname?: string | null,
   imageurl: string,
   title: string,
@@ -12,6 +13,7 @@ export type CreateGalleryInput = {
 };
 
 export type ModelGalleryConditionInput = {
+  dummy?: ModelStringInput | null,
   nickname?: ModelStringInput | null,
   imageurl?: ModelStringInput | null,
   title?: ModelStringInput | null,
@@ -65,6 +67,7 @@ export type ModelSizeInput = {
 export type Gallery = {
   __typename: "Gallery",
   id: string,
+  dummy: string,
   nickname?: string | null,
   imageurl: string,
   title: string,
@@ -77,6 +80,7 @@ export type Gallery = {
 
 export type UpdateGalleryInput = {
   id: string,
+  dummy?: string | null,
   nickname?: string | null,
   imageurl?: string | null,
   title?: string | null,
@@ -90,6 +94,7 @@ export type DeleteGalleryInput = {
 
 export type ModelGalleryFilterInput = {
   id?: ModelIDInput | null,
+  dummy?: ModelStringInput | null,
   nickname?: ModelStringInput | null,
   imageurl?: ModelStringInput | null,
   title?: ModelStringInput | null,
@@ -122,8 +127,25 @@ export type ModelGalleryConnection = {
   nextToken?: string | null,
 };
 
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
 export type ModelSubscriptionGalleryFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  dummy?: ModelSubscriptionStringInput | null,
   nickname?: ModelSubscriptionStringInput | null,
   imageurl?: ModelSubscriptionStringInput | null,
   title?: ModelSubscriptionStringInput | null,
@@ -172,6 +194,7 @@ export type CreateGalleryMutation = {
   createGallery?:  {
     __typename: "Gallery",
     id: string,
+    dummy: string,
     nickname?: string | null,
     imageurl: string,
     title: string,
@@ -192,6 +215,7 @@ export type UpdateGalleryMutation = {
   updateGallery?:  {
     __typename: "Gallery",
     id: string,
+    dummy: string,
     nickname?: string | null,
     imageurl: string,
     title: string,
@@ -212,6 +236,7 @@ export type DeleteGalleryMutation = {
   deleteGallery?:  {
     __typename: "Gallery",
     id: string,
+    dummy: string,
     nickname?: string | null,
     imageurl: string,
     title: string,
@@ -231,6 +256,7 @@ export type GetGalleryQuery = {
   getGallery?:  {
     __typename: "Gallery",
     id: string,
+    dummy: string,
     nickname?: string | null,
     imageurl: string,
     title: string,
@@ -254,6 +280,36 @@ export type ListGalleriesQuery = {
     items:  Array< {
       __typename: "Gallery",
       id: string,
+      dummy: string,
+      nickname?: string | null,
+      imageurl: string,
+      title: string,
+      description?: string | null,
+      timestamp: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GalleryByDateQueryVariables = {
+  dummy: string,
+  timestamp?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelGalleryFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type GalleryByDateQuery = {
+  galleryByDate?:  {
+    __typename: "ModelGalleryConnection",
+    items:  Array< {
+      __typename: "Gallery",
+      id: string,
+      dummy: string,
       nickname?: string | null,
       imageurl: string,
       title: string,
@@ -276,6 +332,7 @@ export type OnCreateGallerySubscription = {
   onCreateGallery?:  {
     __typename: "Gallery",
     id: string,
+    dummy: string,
     nickname?: string | null,
     imageurl: string,
     title: string,
@@ -296,6 +353,7 @@ export type OnUpdateGallerySubscription = {
   onUpdateGallery?:  {
     __typename: "Gallery",
     id: string,
+    dummy: string,
     nickname?: string | null,
     imageurl: string,
     title: string,
@@ -316,6 +374,7 @@ export type OnDeleteGallerySubscription = {
   onDeleteGallery?:  {
     __typename: "Gallery",
     id: string,
+    dummy: string,
     nickname?: string | null,
     imageurl: string,
     title: string,

@@ -9,6 +9,13 @@ type Gallery
 		]
 	) {
 	id: ID!
+	dummy: String!
+		@default(value: "CONST")
+		@index(
+			name: "ByDate"
+			sortKeyFields: ["timestamp"]
+			queryField: "galleryByDate"
+		)
 	nickname: String
 	imageurl: String!
 	title: String!

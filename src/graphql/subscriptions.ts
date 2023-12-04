@@ -14,6 +14,7 @@ export const onCreateGallery = /* GraphQL */ `subscription OnCreateGallery(
 ) {
   onCreateGallery(filter: $filter, owner: $owner) {
     id
+    dummy
     nickname
     imageurl
     title
@@ -35,6 +36,7 @@ export const onUpdateGallery = /* GraphQL */ `subscription OnUpdateGallery(
 ) {
   onUpdateGallery(filter: $filter, owner: $owner) {
     id
+    dummy
     nickname
     imageurl
     title
@@ -56,6 +58,7 @@ export const onDeleteGallery = /* GraphQL */ `subscription OnDeleteGallery(
 ) {
   onDeleteGallery(filter: $filter, owner: $owner) {
     id
+    dummy
     nickname
     imageurl
     title

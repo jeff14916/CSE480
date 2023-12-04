@@ -14,6 +14,7 @@ export const createGallery = /* GraphQL */ `mutation CreateGallery(
 ) {
   createGallery(input: $input, condition: $condition) {
     id
+    dummy
     nickname
     imageurl
     title
@@ -35,6 +36,7 @@ export const updateGallery = /* GraphQL */ `mutation UpdateGallery(
 ) {
   updateGallery(input: $input, condition: $condition) {
     id
+    dummy
     nickname
     imageurl
     title
@@ -56,6 +58,7 @@ export const deleteGallery = /* GraphQL */ `mutation DeleteGallery(
 ) {
   deleteGallery(input: $input, condition: $condition) {
     id
+    dummy
     nickname
     imageurl
     title
