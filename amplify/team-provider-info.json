@@ -15,6 +15,12 @@
     "categories": {
       "auth": {
         "cse480549a88fc": {}
+      },
+      "storage": {
+        "imagestorage": {}
+      },
+      "api": {
+        "cse480": {}
       }
     }
   }
