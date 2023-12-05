@@ -21,4 +21,10 @@ type Gallery
 	title: String!
 	description: String
 	timestamp: String!
+	owner: String!
+		@index(
+			name: "ByOwner"
+			sortKeyFields: ["timestamp"]
+			queryField: "galleryByOwner"
+		)
 }

@@ -25,19 +25,16 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type GalleryUpdateFormInputValues = {
     title?: string;
     description?: string;
-    dummy?: string;
 };
 export declare type GalleryUpdateFormValidationValues = {
     title?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
-    dummy?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type GalleryUpdateFormOverridesProps = {
     GalleryUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     title?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
-    dummy?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type GalleryUpdateFormProps = React.PropsWithChildren<{
     overrides?: GalleryUpdateFormOverridesProps | undefined | null;

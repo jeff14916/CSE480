@@ -20,9 +20,9 @@ export const createGallery = /* GraphQL */ `mutation CreateGallery(
     title
     description
     timestamp
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -42,9 +42,9 @@ export const updateGallery = /* GraphQL */ `mutation UpdateGallery(
     title
     description
     timestamp
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -64,9 +64,9 @@ export const deleteGallery = /* GraphQL */ `mutation DeleteGallery(
     title
     description
     timestamp
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }

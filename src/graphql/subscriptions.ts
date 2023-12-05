@@ -20,9 +20,9 @@ export const onCreateGallery = /* GraphQL */ `subscription OnCreateGallery(
     title
     description
     timestamp
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -42,9 +42,9 @@ export const onUpdateGallery = /* GraphQL */ `subscription OnUpdateGallery(
     title
     description
     timestamp
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -64,9 +64,9 @@ export const onDeleteGallery = /* GraphQL */ `subscription OnDeleteGallery(
     title
     description
     timestamp
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }

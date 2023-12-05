@@ -10,6 +10,7 @@ export type CreateGalleryInput = {
   title: string,
   description?: string | null,
   timestamp: string,
+  owner: string,
 };
 
 export type ModelGalleryConditionInput = {
@@ -19,6 +20,7 @@ export type ModelGalleryConditionInput = {
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
   timestamp?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
   and?: Array< ModelGalleryConditionInput | null > | null,
   or?: Array< ModelGalleryConditionInput | null > | null,
   not?: ModelGalleryConditionInput | null,
@@ -73,9 +75,9 @@ export type Gallery = {
   title: string,
   description?: string | null,
   timestamp: string,
+  owner: string,
   createdAt: string,
   updatedAt: string,
-  owner?: string | null,
 };
 
 export type UpdateGalleryInput = {
@@ -86,6 +88,7 @@ export type UpdateGalleryInput = {
   title?: string | null,
   description?: string | null,
   timestamp?: string | null,
+  owner?: string | null,
 };
 
 export type DeleteGalleryInput = {
@@ -100,6 +103,7 @@ export type ModelGalleryFilterInput = {
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
   timestamp?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
   and?: Array< ModelGalleryFilterInput | null > | null,
   or?: Array< ModelGalleryFilterInput | null > | null,
   not?: ModelGalleryFilterInput | null,
@@ -200,9 +204,9 @@ export type CreateGalleryMutation = {
     title: string,
     description?: string | null,
     timestamp: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -221,9 +225,9 @@ export type UpdateGalleryMutation = {
     title: string,
     description?: string | null,
     timestamp: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -242,9 +246,9 @@ export type DeleteGalleryMutation = {
     title: string,
     description?: string | null,
     timestamp: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -262,9 +266,9 @@ export type GetGalleryQuery = {
     title: string,
     description?: string | null,
     timestamp: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -286,9 +290,9 @@ export type ListGalleriesQuery = {
       title: string,
       description?: string | null,
       timestamp: string,
+      owner: string,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -315,9 +319,38 @@ export type GalleryByDateQuery = {
       title: string,
       description?: string | null,
       timestamp: string,
+      owner: string,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GalleryByOwnerQueryVariables = {
+  owner: string,
+  timestamp?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelGalleryFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type GalleryByOwnerQuery = {
+  galleryByOwner?:  {
+    __typename: "ModelGalleryConnection",
+    items:  Array< {
+      __typename: "Gallery",
+      id: string,
+      dummy: string,
+      nickname?: string | null,
+      imageurl: string,
+      title: string,
+      description?: string | null,
+      timestamp: string,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -338,9 +371,9 @@ export type OnCreateGallerySubscription = {
     title: string,
     description?: string | null,
     timestamp: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -359,9 +392,9 @@ export type OnUpdateGallerySubscription = {
     title: string,
     description?: string | null,
     timestamp: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -380,8 +413,8 @@ export type OnDeleteGallerySubscription = {
     title: string,
     description?: string | null,
     timestamp: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };

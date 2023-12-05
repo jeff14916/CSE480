@@ -27,13 +27,11 @@ export default function GalleryUpdateForm(props) {
   const initialValues = {
     title: "",
     description: "",
-    dummy: "",
   };
   const [title, setTitle] = React.useState(initialValues.title);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [dummy, setDummy] = React.useState(initialValues.dummy);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = galleryRecord
@@ -41,7 +39,6 @@ export default function GalleryUpdateForm(props) {
       : initialValues;
     setTitle(cleanValues.title);
     setDescription(cleanValues.description);
-    setDummy(cleanValues.dummy);
     setErrors({});
   };
   const [galleryRecord, setGalleryRecord] = React.useState(galleryModelProp);
@@ -63,7 +60,6 @@ export default function GalleryUpdateForm(props) {
   const validations = {
     title: [{ type: "Required" }],
     description: [],
-    dummy: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -93,7 +89,6 @@ export default function GalleryUpdateForm(props) {
         let modelFields = {
           title,
           description: description ?? null,
-          dummy,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -161,7 +156,6 @@ export default function GalleryUpdateForm(props) {
             const modelFields = {
               title: value,
               description,
-              dummy,
             };
             const result = onChange(modelFields);
             value = result?.title ?? value;
@@ -187,7 +181,6 @@ export default function GalleryUpdateForm(props) {
             const modelFields = {
               title,
               description: value,
-              dummy,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -201,37 +194,6 @@ export default function GalleryUpdateForm(props) {
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
-      ></TextField>
-      <TextField
-        label={
-          <span style={{ display: "inline-flex" }}>
-            <span>Dummy</span>
-            <span style={{ color: "red" }}>*</span>
-          </span>
-        }
-        isRequired={true}
-        isReadOnly={false}
-        value={dummy}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              title,
-              description,
-              dummy: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.dummy ?? value;
-          }
-          if (errors.dummy?.hasError) {
-            runValidationTasks("dummy", value);
-          }
-          setDummy(value);
-        }}
-        onBlur={() => runValidationTasks("dummy", dummy)}
-        errorMessage={errors.dummy?.errorMessage}
-        hasError={errors.dummy?.hasError}
-        {...getOverrideProps(overrides, "dummy")}
       ></TextField>
       <Flex
         justifyContent="space-between"
