@@ -11,6 +11,8 @@ import PhotoGallery from "./routes/PhotoGallery";
 import LoginPage from "./routes/LoginPage";
 import MyPage from "./routes/MyPage";
 import NotFoundPage from "./routes/NotFoundPage";
+import Result from "./routes/Result";
+
 import { AuthProvider } from "./AuthContext";
 
 function App() {
@@ -29,6 +31,10 @@ function App() {
 						<Route
 							path="/recommend/test"
 							element={<RecommendationTest />}
+						></Route>
+						<Route
+							path="/recommend/result"
+							element={<Result />}
 						></Route>
 						<Route
 							path="/photography"

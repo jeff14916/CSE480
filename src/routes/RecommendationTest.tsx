@@ -2,14 +2,51 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./RecommendationTest.module.css";
+import { useAuth } from "../AuthContext";
+import { updateUserAttribute } from "aws-amplify/auth";
 
 const RecommendationTest = () => {
 	const { register, handleSubmit } = useForm();
 	const navigate = useNavigate();
+	const { isAuthenticated } = useAuth();
 
 	const onSubmit = (data: any) => {
-		//result
-		navigate("/recommend/result");
+		console.log(data);
+		let param = 0;
+		if (data.brand === "Canon") {
+			param += 1000;
+		}
+		if (data.brand === "Sony") {
+			param += 2000;
+		}
+		if (data.brand === "Nikon") {
+			param += 3000;
+		}
+		if (data.brand === "No preference") {
+			param += 4000;
+		}
+		if (data.cameraType === "DSLR") {
+			param += 100;
+		}
+		if (data.cameraType === "Mirrorless") {
+			param += 200;
+		}
+		if (data.cameraType === "Film") {
+			param += 300;
+		}
+		if (isAuthenticated) {
+			UpdateAttributes(param);
+		}
+		navigate(`/recommend/result?param=${param}`);
+	};
+	const UpdateAttributes = async (param: number) => {
+		const valu = param.toString();
+		await updateUserAttribute({
+			userAttribute: {
+				attributeKey: "custom:result",
+				value: valu,
+			},
+		});
 	};
 
 	return (

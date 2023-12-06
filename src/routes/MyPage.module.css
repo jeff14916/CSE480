@@ -1,0 +1,38 @@
+.formmodel {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	z-index: 1000; /* Ensure it's above other content */
+	max-width: 100%; /* Limit the width */
+	max-height: 80%; /* Limit the height */
+	overflow-y: auto; /* Add scroll for overflow */
+}
+.container {
+	text-align: center;
+	padding: 20px;
+}
+
+.diagram {
+	width: 80%;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid #ccc;
+	position: relative;
+}
+
+.camera-diagram img {
+	width: 100%;
+	height: auto;
+}
+
+.tag {
+	font-size: 24px;
+}
+
+.footer {
+	margin-top: 20px;
+}

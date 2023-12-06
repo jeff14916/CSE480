@@ -1,0 +1,25 @@
+.container {
+	text-align: center;
+	padding: 20px;
+}
+
+.diagram {
+	width: 80%;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid #ccc;
+	position: relative;
+}
+
+.camera-diagram img {
+	width: 100%;
+	height: auto;
+}
+
+.tag {
+	font-size: 40px;
+}
+
+.footer {
+	margin-top: 20px;
+}

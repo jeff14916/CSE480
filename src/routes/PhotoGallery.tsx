@@ -18,6 +18,7 @@ type Gallery2 = {
 };
 
 const PhotoGallery = () => {
+	document.title = "Photo Gallery";
 	const [showcreateForm, setcreateForm] = useState(false);
 	const navigate = useNavigate();
 	const [nicknam, setnicknam] = useState("");
@@ -45,7 +46,6 @@ const PhotoGallery = () => {
 					},
 					authMode: "apiKey",
 				});
-				alert(resp.data.galleryByDate.items.length);
 				let realGal: Gallery2[] = [];
 				if (resp) {
 					for (
@@ -170,7 +170,6 @@ const PhotoGallery = () => {
 									margin: "10px",
 								}}
 							/>
-							{image.modurl}
 						</div>
 					))}
 			</div>

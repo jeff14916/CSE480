@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./RecommendationService.module.css";
 
 const RecommendationService = () => {
+	document.title = "Recommendation Service";
 	const navigate = useNavigate();
 	const test = async () => {
 		navigate("/recommend/test");
@@ -15,6 +16,7 @@ const RecommendationService = () => {
 				recommendation for the camera that's right for you by answering
 				a few questions!
 			</p>
+			<p> currently on development </p>
 			<button onClick={test}>GO TEST</button>
 		</div>
 	);

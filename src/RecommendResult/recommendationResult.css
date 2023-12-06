@@ -1,0 +1,28 @@
+.container {
+	text-align: center;
+	padding: 20px;
+}
+
+.camera-diagram {
+	width: 80%;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid #ccc;
+	position: relative;
+}
+
+.camera-diagram img {
+	width: 100%;
+	height: auto;
+}
+
+.recommendation-tag {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	padding: 5px;
+}
+
+.footer {
+	margin-top: 20px;
+}

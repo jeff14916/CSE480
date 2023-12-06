@@ -143,6 +143,7 @@ export default function GalleryCreateForm(props) {
             <span style={{ color: "red" }}>*</span>
           </span>
         }
+        descriptiveText={""}
         isRequired={true}
         isReadOnly={false}
       >

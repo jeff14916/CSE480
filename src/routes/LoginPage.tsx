@@ -8,6 +8,7 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import { Hub } from "aws-amplify/utils";
 Amplify.configure(config);
 const LoginPage = () => {
+	document.title = "Log In";
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { isAuthenticated, setAuthStatus } = useAuth();

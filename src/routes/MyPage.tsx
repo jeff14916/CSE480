@@ -6,9 +6,11 @@ import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 import { GalleryUpdateForm } from "../ui-components";
-import styles from "./PhotoGallery.module.css";
 import { getUrl, GetUrlInput } from "@aws-amplify/storage";
 import { Gallery, ModelSortDirection } from "../API";
+import { deleteGallery } from "../graphql/mutations";
+import styles from "./MyPage.module.css";
+import ResultData from "./ResultData";
 
 const client = generateClient();
 let IMAGES_PER_PAGE = 6;
@@ -17,12 +19,15 @@ type Gallery2 = {
 	modurl: string;
 };
 
-const PhotoGallery = () => {
+const MyPage = () => {
+	document.title = "My Page";
 	const [showupdateForm, setupdateForm] = useState(false);
 	const navigate = useNavigate();
 	const [userSet, setuserSet] = useState(false);
 	const [nicknam, setnicknam] = useState("");
 	const [cogid, setcogid] = useState("");
+	const [imgsrc, setimgsrc] = useState("");
+	const [cameraname, setcameraname] = useState("");
 	const { isAuthenticated } = useAuth();
 	const [currentpage, setcurrentpage] = useState(0);
 	const [response, setresponse] = useState<Gallery2[] | undefined>(undefined);
@@ -46,7 +51,6 @@ const PhotoGallery = () => {
 							sortDirection: ModelSortDirection.DESC,
 						},
 					});
-					alert(resp.data.galleryByOwner.items.length);
 					let realGal: Gallery2[] = [];
 					if (resp) {
 						for (
@@ -85,6 +89,7 @@ const PhotoGallery = () => {
 			);
 		}
 	}, [response, currentpage, fetchComplete]);
+
 	useEffect(() => {
 		if (!isAuthenticated) {
 			alert("Not logged In!");
@@ -94,7 +99,14 @@ const PhotoGallery = () => {
 			if (isAuthenticated) {
 				try {
 					const attr = await fetchUserAttributes();
-					setnicknam(attr.nickname ? attr.nickname : "Undefined");
+					console.log(attr);
+					setnicknam(attr.nickname ? attr.nickname : "");
+					const customresult = attr["custom:result"];
+					let a,
+						b = "";
+					[a, b] = ResultData(customresult ? customresult : "");
+					setimgsrc(a);
+					setcameraname(b);
 					const user = await getCurrentUser();
 					setcogid(user.userId);
 					setuserSet(true);
@@ -106,6 +118,27 @@ const PhotoGallery = () => {
 
 	const galleryUpdate = () => {
 		setupdateForm(true);
+		setTriggerFetch(triggerFetch + 1);
+	};
+	const galleryDelete = async () => {
+		const response = window.confirm("Are you Sure to delete this photo?");
+		if (response) {
+			try {
+				await client.graphql({
+					query: deleteGallery,
+					variables: {
+						input: {
+							id: selectedImage?.gall.id
+								? selectedImage?.gall.id
+								: "",
+						},
+					},
+				});
+				setTriggerFetch(triggerFetch + 1);
+			} catch (e) {
+				alert("Delete Failed!");
+			}
+		}
 	};
 
 	const nextPage = () => {
@@ -134,6 +167,11 @@ const PhotoGallery = () => {
 
 	return (
 		<div>
+			<h3 className={styles.tag}> Previous Recommend Result: </h3>
+			<div className={styles.diagram}>
+				<img src={imgsrc} alt="Camera Diagram" />
+			</div>
+			<div className={styles.footer}>{cameraname}</div>
 			{nicknam && `Hello, ${nicknam}!`}
 			{showupdateForm && (
 				<div className={styles.formmodel}>
@@ -179,7 +217,8 @@ const PhotoGallery = () => {
 					Title: {selectedImage.gall.title}
 					<br></br>
 					Description: {selectedImage.gall.description}
-					<button onClick={() => galleryUpdate()}></button>
+					<button onClick={() => galleryUpdate()}>Update</button>
+					<button onClick={() => galleryDelete()}>Delete</button>
 				</div>
 			)}
 			<div>
@@ -200,4 +239,4 @@ const PhotoGallery = () => {
 	);
 };
 
-export default PhotoGallery;
+export default MyPage;
