@@ -30,40 +30,37 @@ const PhotoGallery = () => {
 	const [fetchComplete, setfetchComplete] = useState(0);
 	useEffect(() => {
 		const fetchGallery = async () => {
-			if (isAuthenticated) {
+			try {
+				const resp = await client.graphql({
+					query: galleryByDate,
+					variables: {
+						dummy: "CONST",
+						sortDirection: ModelSortDirection.DESC,
+					},
+				});
 				try {
-					const resp = await client.graphql({
-						query: galleryByDate,
-						variables: {
-							dummy: "CONST",
-							sortDirection: ModelSortDirection.DESC,
-						},
-					});
-					try {
-						if (resp) {
-							for (
-								let i = 0;
-								i < resp.data.galleryByDate.items.length;
-								i++
-							) {
-								resp.data.galleryByDate.items[i].imageurl =
-									await getURL(
-										resp.data.galleryByDate.items[i]
-											.imageurl
-									);
-							}
+					if (resp) {
+						for (
+							let i = 0;
+							i < resp.data.galleryByDate.items.length;
+							i++
+						) {
+							resp.data.galleryByDate.items[i].imageurl =
+								await getURL(
+									resp.data.galleryByDate.items[i].imageurl
+								);
 						}
-					} catch (e) {
-						console.error("Error loading gallery:", e);
 					}
-					setresponse(resp.data.galleryByDate.items);
-					setlen(resp.data.galleryByDate.items.length);
-					setfetchComplete((f) => f + 1);
-				} catch (e) {}
-			}
+				} catch (e) {
+					console.error("Error loading gallery:", e);
+				}
+				setresponse(resp.data.galleryByDate.items);
+				setlen(resp.data.galleryByDate.items.length);
+				setfetchComplete((f) => f + 1);
+			} catch (e) {}
 		};
 		fetchGallery();
-	}, [isAuthenticated, triggerFetch]);
+	}, [triggerFetch]);
 	useEffect(() => {
 		if (fetchComplete) {
 			setpaginatedImages(
@@ -117,6 +114,9 @@ const PhotoGallery = () => {
 		if (!url) return "";
 		const urlinput: GetUrlInput = {
 			key: url,
+			options: {
+				accessLevel: "private",
+			},
 		};
 		const repurl = (await getUrl(urlinput)).url.href;
 		return repurl;
