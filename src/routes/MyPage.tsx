@@ -47,16 +47,20 @@ const PhotoGallery = () => {
 						},
 					});
 					let realGal: Gallery2[] = [];
+					alert(resp.data.galleryByOwner.items.length);
 					if (resp) {
 						for (
 							let i = 0;
 							i < resp.data.galleryByOwner.items.length;
 							i++
 						) {
-							realGal[i].gall = resp.data.galleryByOwner.items[i];
-							realGal[i].modurl = await getURL(
-								resp.data.galleryByOwner.items[i].imageurl
-							);
+							let newItem: Gallery2 = {
+								gall: resp.data.galleryByOwner.items[i],
+								modurl: await getURL(
+									resp.data.galleryByOwner.items[i].imageurl
+								),
+							};
+							realGal.push(newItem);
 						}
 					}
 					setresponse(realGal);
