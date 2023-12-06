@@ -68,7 +68,9 @@ const Header = () => {
 						</ul>
 					</nav>
 					<div className={styles.navli}>
-						{nickname && `Hello, ${nickname}!`}
+						<Link to="mypage" className={styles.navli}>
+							{nickname && `Hello, ${nickname}!`}
+						</Link>
 					</div>
 					{isAuthenticated ? (
 						<Button

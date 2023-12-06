@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "@aws-amplify/ui-react/styles.css";
 import { generateClient } from "aws-amplify/api";
-import { galleryByDate } from "../graphql/queries";
-import { fetchUserAttributes } from "aws-amplify/auth";
+import { galleryByOwner } from "../graphql/queries";
+import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 import { GalleryCreateForm } from "../ui-components";
@@ -15,66 +15,94 @@ let IMAGES_PER_PAGE = 6;
 
 const PhotoGallery = () => {
 	const [showcreateForm, setcreateForm] = useState(false);
-
 	const navigate = useNavigate();
+	const [userSet, setuserSet] = useState(false);
 	const [nicknam, setnicknam] = useState("");
+	const [cogid, setcogid] = useState("");
 	const { isAuthenticated } = useAuth();
 	const [currentpage, setcurrentpage] = useState(0);
 	const [response, setresponse] = useState<Gallery[] | undefined>(undefined);
-	const [startIndex, setstartIndex] = useState(0);
+	const [len, setlen] = useState(0);
 	const [paginatedImages, setpaginatedImages] = useState<
 		Gallery[] | undefined
 	>(undefined);
 	const [selectedImage, setSelectedImage] = useState<Gallery | null>(null);
+	const [triggerFetch, setTriggerFetch] = useState(0);
+	const [fetchComplete, setfetchComplete] = useState(0);
 	useEffect(() => {
-		const setuser = async () => {
-			if (!isAuthenticated) {
-				alert("Not logged In!");
-				navigate(`/login?returnURL=/gallery`);
-			} else {
+		const fetchGallery = async () => {
+			if (userSet) {
 				try {
-					const attr = await fetchUserAttributes();
-					setnicknam(attr.nickname ? attr.nickname : "Undefined");
+					const resp = await client.graphql({
+						query: galleryByOwner,
+						variables: {
+							owner: cogid,
+							sortDirection: ModelSortDirection.DESC,
+						},
+					});
+					try {
+						if (resp) {
+							for (
+								let i = 0;
+								i < resp.data.galleryByOwner.items.length;
+								i++
+							) {
+								resp.data.galleryByOwner.items[i].imageurl =
+									await getURL(
+										resp.data.galleryByOwner.items[i]
+											.imageurl
+									);
+							}
+						}
+					} catch (e) {
+						console.error("Error loading gallery:", e);
+					}
+					setresponse(resp.data.galleryByOwner.items);
+					setlen(resp.data.galleryByOwner.items.length);
+					setfetchComplete((f) => f + 1);
 				} catch (e) {}
 			}
 		};
-		const fetchGallery = async () => {
-			try {
-				const resp = await client.graphql({
-					query: galleryByDate,
-					variables: {
-						dummy: "CONST",
-						sortDirection: ModelSortDirection.DESC,
-					},
-				});
-				setresponse(resp.data.galleryByDate.items);
-				if (response) {
-					for (let i = 0; i < response.length; i++) {
-						response[i].imageurl = await getURL(
-							response[i].imageurl
-						);
-					}
-				}
-			} catch (e) {
-				console.error("Error loading gallery:", e);
-			}
-			setstartIndex(currentpage * IMAGES_PER_PAGE);
+		fetchGallery();
+	}, [cogid, isAuthenticated, triggerFetch, userSet]);
+	useEffect(() => {
+		if (fetchComplete) {
 			setpaginatedImages(
 				response
-					? response.slice(startIndex, startIndex + IMAGES_PER_PAGE)
+					? response.slice(
+							currentpage * IMAGES_PER_PAGE,
+							currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE
+					  )
 					: undefined
 			);
+		}
+	}, [response, currentpage, fetchComplete]);
+	useEffect(() => {
+		if (!isAuthenticated) {
+			alert("Not logged In!");
+			navigate(`/login?returnURL=/gallery`);
+		}
+		const setuser = async () => {
+			if (isAuthenticated) {
+				try {
+					const attr = await fetchUserAttributes();
+					setnicknam(attr.nickname ? attr.nickname : "Undefined");
+					const user = await getCurrentUser();
+					setcogid(user.userId);
+					setuserSet(true);
+				} catch (e) {}
+			}
 		};
 		setuser();
-		fetchGallery();
-	}, [currentpage, isAuthenticated, navigate, response, startIndex]);
+	}, [isAuthenticated, navigate]);
+
 	const galleryCreate = () => {
 		setcreateForm(true);
 	};
 
 	const nextPage = () => {
 		if (response) {
-			if (startIndex + IMAGES_PER_PAGE < response.length) {
+			if (currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE < len) {
 				setcurrentpage(currentpage + 1);
 			}
 		}
@@ -114,11 +142,15 @@ const PhotoGallery = () => {
 								timestamp: currentTimestamp,
 								nickname: currentnickname,
 								dummy: "CONST",
+								owner: cogid,
 							};
 							return updatedFields;
 						}}
 						onCancel={() => {
 							setcreateForm(false);
+						}}
+						onSuccess={() => {
+							setTriggerFetch(triggerFetch + 1);
 						}}
 					></GalleryCreateForm>
 				</div>
@@ -157,8 +189,8 @@ const PhotoGallery = () => {
 				<button
 					onClick={nextPage}
 					disabled={
-						response &&
-						startIndex + IMAGES_PER_PAGE >= response.length
+						!response ||
+						currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE >= len
 					}
 				>
 					Next
