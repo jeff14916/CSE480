@@ -44,6 +44,7 @@ export declare type GalleryUpdateFormProps = React.PropsWithChildren<{
     onSubmit?: (fields: GalleryUpdateFormInputValues) => GalleryUpdateFormInputValues;
     onSuccess?: (fields: GalleryUpdateFormInputValues) => void;
     onError?: (fields: GalleryUpdateFormInputValues, errorMessage: string) => void;
+    onCancel?: () => void;
     onChange?: (fields: GalleryUpdateFormInputValues) => GalleryUpdateFormInputValues;
     onValidate?: GalleryUpdateFormValidationValues;
 } & React.CSSProperties>;

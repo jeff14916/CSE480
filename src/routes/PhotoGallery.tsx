@@ -25,7 +25,9 @@ const PhotoGallery = () => {
 	const [paginatedImages, setpaginatedImages] = useState<
 		Gallery[] | undefined
 	>(undefined);
-	const [selectedImage, setSelectedImage] = useState<Gallery | null>(null);
+	const [selectedImage, setSelectedImage] = useState<Gallery | undefined>(
+		undefined
+	);
 	const [triggerFetch, setTriggerFetch] = useState(0);
 	const [fetchComplete, setfetchComplete] = useState(0);
 	useEffect(() => {
@@ -38,26 +40,24 @@ const PhotoGallery = () => {
 						sortDirection: ModelSortDirection.DESC,
 					},
 				});
-				try {
-					if (resp) {
-						for (
-							let i = 0;
-							i < resp.data.galleryByDate.items.length;
-							i++
-						) {
-							resp.data.galleryByDate.items[i].imageurl =
-								await getURL(
-									resp.data.galleryByDate.items[i].imageurl
-								);
-						}
+				if (resp) {
+					for (
+						let i = 0;
+						i < resp.data.galleryByDate.items.length;
+						i++
+					) {
+						resp.data.galleryByDate.items[i].imageurl =
+							await getURL(
+								resp.data.galleryByDate.items[i].imageurl
+							);
 					}
-				} catch (e) {
-					console.error("Error loading gallery:", e);
 				}
 				setresponse(resp.data.galleryByDate.items);
 				setlen(resp.data.galleryByDate.items.length);
 				setfetchComplete((f) => f + 1);
-			} catch (e) {}
+			} catch (e) {
+				console.error("Error loading gallery:", e);
+			}
 		};
 		fetchGallery();
 	}, [triggerFetch]);
@@ -156,7 +156,7 @@ const PhotoGallery = () => {
 						<div key={index} onClick={() => selectImage(image)}>
 							<img
 								src={image.imageurl}
-								alt={image.title}
+								alt="Load Failed"
 								style={{
 									width: "150px",
 									height: "150px",
@@ -167,15 +167,20 @@ const PhotoGallery = () => {
 					))}
 			</div>
 			{selectedImage && (
-				<img
-					src={selectedImage.imageurl}
-					alt={selectedImage.title}
-					style={{
-						width: "400px",
-						height: "400px",
-						margin: "40px",
-					}}
-				/>
+				<div>
+					<img
+						src={selectedImage.imageurl}
+						alt="Load Failed"
+						style={{
+							width: "400px",
+							height: "400px",
+							margin: "40px",
+						}}
+					/>
+					Title: {selectedImage.title}
+					<br></br>
+					Description: {selectedImage.description}
+				</div>
 			)}
 			<div>
 				<button onClick={previousPage} disabled={currentpage === 0}>

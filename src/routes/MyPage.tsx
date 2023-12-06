@@ -5,28 +5,34 @@ import { galleryByOwner } from "../graphql/queries";
 import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
-import { GalleryCreateForm } from "../ui-components";
+import { GalleryUpdateForm } from "../ui-components";
 import styles from "./PhotoGallery.module.css";
 import { getUrl, GetUrlInput } from "@aws-amplify/storage";
 import { Gallery, ModelSortDirection } from "../API";
 
 const client = generateClient();
 let IMAGES_PER_PAGE = 6;
+type Gallery2 = {
+	gall: Gallery;
+	modurl: string;
+};
 
 const PhotoGallery = () => {
-	const [showcreateForm, setcreateForm] = useState(false);
+	const [showupdateForm, setupdateForm] = useState(false);
 	const navigate = useNavigate();
 	const [userSet, setuserSet] = useState(false);
 	const [nicknam, setnicknam] = useState("");
 	const [cogid, setcogid] = useState("");
 	const { isAuthenticated } = useAuth();
 	const [currentpage, setcurrentpage] = useState(0);
-	const [response, setresponse] = useState<Gallery[] | undefined>(undefined);
+	const [response, setresponse] = useState<Gallery2[] | undefined>(undefined);
 	const [len, setlen] = useState(0);
 	const [paginatedImages, setpaginatedImages] = useState<
-		Gallery[] | undefined
+		Gallery2[] | undefined
 	>(undefined);
-	const [selectedImage, setSelectedImage] = useState<Gallery | null>(null);
+	const [selectedImage, setSelectedImage] = useState<Gallery2 | undefined>(
+		undefined
+	);
 	const [triggerFetch, setTriggerFetch] = useState(0);
 	const [fetchComplete, setfetchComplete] = useState(0);
 	useEffect(() => {
@@ -40,27 +46,25 @@ const PhotoGallery = () => {
 							sortDirection: ModelSortDirection.DESC,
 						},
 					});
-					try {
-						if (resp) {
-							for (
-								let i = 0;
-								i < resp.data.galleryByOwner.items.length;
-								i++
-							) {
-								resp.data.galleryByOwner.items[i].imageurl =
-									await getURL(
-										resp.data.galleryByOwner.items[i]
-											.imageurl
-									);
-							}
+					let realGal: Gallery2[] = [];
+					if (resp) {
+						for (
+							let i = 0;
+							i < resp.data.galleryByOwner.items.length;
+							i++
+						) {
+							realGal[i].gall = resp.data.galleryByOwner.items[i];
+							realGal[i].modurl = await getURL(
+								resp.data.galleryByOwner.items[i].imageurl
+							);
 						}
-					} catch (e) {
-						console.error("Error loading gallery:", e);
 					}
-					setresponse(resp.data.galleryByOwner.items);
+					setresponse(realGal);
 					setlen(resp.data.galleryByOwner.items.length);
 					setfetchComplete((f) => f + 1);
-				} catch (e) {}
+				} catch (e) {
+					console.error("Error loading gallery:", e);
+				}
 			}
 		};
 		fetchGallery();
@@ -96,8 +100,8 @@ const PhotoGallery = () => {
 		setuser();
 	}, [isAuthenticated, navigate]);
 
-	const galleryCreate = () => {
-		setcreateForm(true);
+	const galleryUpdate = () => {
+		setupdateForm(true);
 	};
 
 	const nextPage = () => {
@@ -112,7 +116,7 @@ const PhotoGallery = () => {
 			setcurrentpage(currentpage - 1);
 		}
 	};
-	const selectImage = (image: Gallery) => {
+	const selectImage = (image: Gallery2) => {
 		setSelectedImage(image);
 	};
 	const getURL = async (url: any) => {
@@ -129,30 +133,18 @@ const PhotoGallery = () => {
 
 	return (
 		<div>
-			<button onClick={galleryCreate}>create</button>
-			{showcreateForm && (
+			{nicknam && `Hello, ${nicknam}!`}
+			{showupdateForm && (
 				<div className={styles.formmodel}>
-					<GalleryCreateForm
-						onSubmit={(fields) => {
-							setcreateForm(false);
-							const currentTimestamp = new Date().toISOString();
-							const currentnickname = nicknam;
-							const updatedFields = {
-								...fields,
-								timestamp: currentTimestamp,
-								nickname: currentnickname,
-								dummy: "CONST",
-								owner: cogid,
-							};
-							return updatedFields;
-						}}
+					<GalleryUpdateForm
+						gallery={selectedImage?.gall}
 						onCancel={() => {
-							setcreateForm(false);
+							setupdateForm(false);
 						}}
 						onSuccess={() => {
 							setTriggerFetch(triggerFetch + 1);
 						}}
-					></GalleryCreateForm>
+					/>
 				</div>
 			)}
 			<div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -160,8 +152,8 @@ const PhotoGallery = () => {
 					paginatedImages.map((image, index) => (
 						<div key={index} onClick={() => selectImage(image)}>
 							<img
-								src={image.imageurl}
-								alt={image.title}
+								src={image.modurl}
+								alt="Load Failed"
 								style={{
 									width: "150px",
 									height: "150px",
@@ -172,15 +164,21 @@ const PhotoGallery = () => {
 					))}
 			</div>
 			{selectedImage && (
-				<img
-					src={selectedImage.imageurl}
-					alt={selectedImage.title}
-					style={{
-						width: "400px",
-						height: "400px",
-						margin: "40px",
-					}}
-				/>
+				<div>
+					<img
+						src={selectedImage.modurl}
+						alt="Load Failed"
+						style={{
+							width: "400px",
+							height: "400px",
+							margin: "40px",
+						}}
+					/>
+					Title: {selectedImage.gall.title}
+					<br></br>
+					Description: {selectedImage.gall.description}
+					<button onClick={() => galleryUpdate()}></button>
+				</div>
 			)}
 			<div>
 				<button onClick={previousPage} disabled={currentpage === 0}>
