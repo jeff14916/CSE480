@@ -12,6 +12,10 @@ import { Gallery, ModelSortDirection } from "../API";
 
 const client = generateClient();
 let IMAGES_PER_PAGE = 6;
+type Gallery2 = {
+	gall: Gallery;
+	modurl: string;
+};
 
 const PhotoGallery = () => {
 	const [showcreateForm, setcreateForm] = useState(false);
@@ -20,12 +24,12 @@ const PhotoGallery = () => {
 	const [cogid, setcogid] = useState("");
 	const { isAuthenticated } = useAuth();
 	const [currentpage, setcurrentpage] = useState(0);
-	const [response, setresponse] = useState<Gallery[] | undefined>(undefined);
+	const [response, setresponse] = useState<Gallery2[] | undefined>(undefined);
 	const [len, setlen] = useState(0);
 	const [paginatedImages, setpaginatedImages] = useState<
-		Gallery[] | undefined
+		Gallery2[] | undefined
 	>(undefined);
-	const [selectedImage, setSelectedImage] = useState<Gallery | undefined>(
+	const [selectedImage, setSelectedImage] = useState<Gallery2 | undefined>(
 		undefined
 	);
 	const [triggerFetch, setTriggerFetch] = useState(0);
@@ -39,20 +43,26 @@ const PhotoGallery = () => {
 						dummy: "CONST",
 						sortDirection: ModelSortDirection.DESC,
 					},
+					authMode: "apiKey",
 				});
+				alert(resp.data.galleryByDate.items.length);
+				let realGal: Gallery2[] = [];
 				if (resp) {
 					for (
 						let i = 0;
 						i < resp.data.galleryByDate.items.length;
 						i++
 					) {
-						resp.data.galleryByDate.items[i].imageurl =
-							await getURL(
+						let newItem: Gallery2 = {
+							gall: resp.data.galleryByDate.items[i],
+							modurl: await getURL(
 								resp.data.galleryByDate.items[i].imageurl
-							);
+							),
+						};
+						realGal.push(newItem);
 					}
 				}
-				setresponse(resp.data.galleryByDate.items);
+				setresponse(realGal);
 				setlen(resp.data.galleryByDate.items.length);
 				setfetchComplete((f) => f + 1);
 			} catch (e) {
@@ -74,11 +84,11 @@ const PhotoGallery = () => {
 		}
 	}, [response, currentpage, fetchComplete]);
 	useEffect(() => {
-		if (!isAuthenticated) {
-			alert("Not logged In!");
-			navigate(`/login?returnURL=/gallery`);
-		}
 		const setuser = async () => {
+			if (!isAuthenticated) {
+				alert("Not logged In!");
+				navigate(`/login?returnURL=/gallery`);
+			}
 			if (isAuthenticated) {
 				try {
 					const attr = await fetchUserAttributes();
@@ -107,16 +117,13 @@ const PhotoGallery = () => {
 			setcurrentpage(currentpage - 1);
 		}
 	};
-	const selectImage = (image: Gallery) => {
+	const selectImage = (image: Gallery2) => {
 		setSelectedImage(image);
 	};
 	const getURL = async (url: any) => {
 		if (!url) return "";
 		const urlinput: GetUrlInput = {
 			key: url,
-			options: {
-				accessLevel: "private",
-			},
 		};
 		const repurl = (await getUrl(urlinput)).url.href;
 		return repurl;
@@ -155,7 +162,7 @@ const PhotoGallery = () => {
 					paginatedImages.map((image, index) => (
 						<div key={index} onClick={() => selectImage(image)}>
 							<img
-								src={image.imageurl}
+								src={image.modurl}
 								alt="Load Failed"
 								style={{
 									width: "150px",
@@ -163,13 +170,14 @@ const PhotoGallery = () => {
 									margin: "10px",
 								}}
 							/>
+							{image.modurl}
 						</div>
 					))}
 			</div>
 			{selectedImage && (
 				<div>
 					<img
-						src={selectedImage.imageurl}
+						src={selectedImage.modurl}
 						alt="Load Failed"
 						style={{
 							width: "400px",
@@ -177,9 +185,9 @@ const PhotoGallery = () => {
 							margin: "40px",
 						}}
 					/>
-					Title: {selectedImage.title}
+					Title: {selectedImage.gall.title}
 					<br></br>
-					Description: {selectedImage.description}
+					Description: {selectedImage.gall.description}
 				</div>
 			)}
 			<div>

@@ -46,8 +46,8 @@ const PhotoGallery = () => {
 							sortDirection: ModelSortDirection.DESC,
 						},
 					});
-					let realGal: Gallery2[] = [];
 					alert(resp.data.galleryByOwner.items.length);
+					let realGal: Gallery2[] = [];
 					if (resp) {
 						for (
 							let i = 0;
@@ -88,7 +88,7 @@ const PhotoGallery = () => {
 	useEffect(() => {
 		if (!isAuthenticated) {
 			alert("Not logged In!");
-			navigate(`/login?returnURL=/gallery`);
+			navigate(`/login?returnURL=/mypage`);
 		}
 		const setuser = async () => {
 			if (isAuthenticated) {
@@ -127,9 +127,6 @@ const PhotoGallery = () => {
 		if (!url) return "";
 		const urlinput: GetUrlInput = {
 			key: url,
-			options: {
-				accessLevel: "private",
-			},
 		};
 		const repurl = (await getUrl(urlinput)).url.href;
 		return repurl;
@@ -147,6 +144,7 @@ const PhotoGallery = () => {
 						}}
 						onSuccess={() => {
 							setTriggerFetch(triggerFetch + 1);
+							setupdateForm(false);
 						}}
 					/>
 				</div>

@@ -1,6 +1,6 @@
 projects:
   cse480:
-    schemaPath: amplify/backend/api/cse480/build/schema.graphql
+    schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.ts
     excludes:
@@ -11,8 +11,6 @@ projects:
         codeGenTarget: typescript
         generatedFileName: src/API.ts
         docsFilePath: src/graphql
-        region: ap-northeast-2
-        apiId: null
         maxDepth: 10
 extensions:
   amplify:

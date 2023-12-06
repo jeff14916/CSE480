@@ -1,8 +1,9 @@
 {
   "aws_project_region": "ap-northeast-2",
-  "aws_appsync_graphqlEndpoint": "https://xh6jrpenlrhnrc4tqr5xdg7l6a.appsync-api.ap-northeast-2.amazonaws.com/graphql",
+  "aws_appsync_graphqlEndpoint": "https://wklz6pnwhre6pl7ula2atkxq3m.appsync-api.ap-northeast-2.amazonaws.com/graphql",
   "aws_appsync_region": "ap-northeast-2",
   "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
+  "aws_appsync_apiKey": "da2-ohetfm5w4zbl7cfk5sy27uxsxm",
   "aws_cognito_identity_pool_id": "ap-northeast-2:1aa29ba2-746b-47fa-ae63-71b345b91076",
   "aws_cognito_region": "ap-northeast-2",
   "aws_user_pools_id": "ap-northeast-2_LvkLMwT5a",
@@ -26,6 +27,6 @@
   "aws_cognito_verification_mechanisms": [
     "EMAIL"
   ],
-  "aws_user_files_s3_bucket": "imagebucket125543-staging",
+  "aws_user_files_s3_bucket": "imgbucket125543-staging",
   "aws_user_files_s3_bucket_region": "ap-northeast-2"
 }

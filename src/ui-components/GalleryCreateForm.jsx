@@ -178,7 +178,7 @@ export default function GalleryCreateForm(props) {
             });
           }}
           processFile={processFile}
-          accessLevel={"private"}
+          accessLevel={"public"}
           acceptedFileTypes={["image/*"]}
           isResumable={true}
           showThumbnails={false}

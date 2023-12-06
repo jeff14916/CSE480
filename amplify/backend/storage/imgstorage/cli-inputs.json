@@ -1,7 +1,7 @@
 {
-  "resourceName": "imagestorage",
-  "policyUUID": "99a9437f",
-  "bucketName": "imagebucket",
+  "resourceName": "imgstorage",
+  "policyUUID": "4ef33ebd",
+  "bucketName": "imgbucket",
   "storageAccess": "auth",
   "guestAccess": [],
   "authAccess": [

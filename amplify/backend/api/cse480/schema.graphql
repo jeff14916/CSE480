@@ -4,8 +4,8 @@ type Gallery
 	@model
 	@auth(
 		rules: [
-			{ allow: owner, operations: [create, read, update, delete] }
-			{ allow: private, operations: [read] }
+			{ allow: owner, operations: [create, update, delete, read] }
+			{ allow: public, provider: apiKey, operations: [read] }
 		]
 	) {
 	id: ID!
