@@ -1,31 +1,13 @@
-import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
 import { useAuth } from "../AuthContext";
 import { Button } from "@aws-amplify/ui-react";
-import { signOut, fetchUserAttributes } from "aws-amplify/auth";
+import { signOut } from "aws-amplify/auth";
 
 const Header = () => {
-	const logo_txt = "All about Camera:\nFor Beginners";
-
 	const { isAuthenticated, setAuthStatus } = useAuth();
-	const [nickname, setNickname] = useState<string | undefined>("");
 	const navigate = useNavigate();
 	const location = useLocation();
-
-	useEffect(() => {
-		const getNickname = async () => {
-			try {
-				const Attributes = await fetchUserAttributes();
-				setNickname(Attributes.nickname);
-			} catch (e) {
-				setNickname(undefined);
-			}
-		};
-		if (isAuthenticated) {
-			getNickname();
-		}
-	}, [isAuthenticated]);
 
 	// Construct the returnURL
 	const returnURL = location.pathname;
@@ -49,7 +31,11 @@ const Header = () => {
 			<header className={styles.header}>
 				<div className={styles.contents}>
 					<Link to="/" className={styles.logo}>
-						<h1 className={styles.logo_txt}>{logo_txt}</h1>
+						<h1 className={styles.logo_txt}>
+							All about Camera:
+							<br />
+							For Beginners
+						</h1>
 					</Link>
 					<nav className={styles.navigation}>
 						<ul className={styles.navul}>
@@ -67,11 +53,14 @@ const Header = () => {
 							</Link>
 						</ul>
 					</nav>
-					<div className={styles.navli}>
-						<Link to="mypage" className={styles.navli}>
-							{nickname && `Hello, ${nickname}!`}
-						</Link>
-					</div>
+					{isAuthenticated && (
+						<div className={styles.navli}>
+							<Link to="mypage" className={styles.navli}>
+								My Page
+							</Link>
+						</div>
+					)}
+
 					{isAuthenticated ? (
 						<Button
 							onClick={handleLogout}

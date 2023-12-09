@@ -3,3 +3,24 @@
 	justify-content: center;
 	align-items: center;
 }
+
+.text {
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+	text-align: center;
+}
+.Button {
+	margin-top: 20px;
+	background-color: #bfa0ed;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	justify-content: center;
+}
+
+.Button:hover {
+	background-color: #ad8edb;
+}

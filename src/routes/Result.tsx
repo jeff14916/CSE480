@@ -18,12 +18,9 @@ const Result = () => {
 			<div className={styles.diagram}>
 				<img src={imgsrc} alt="Camera Diagram" />
 			</div>
-			<div className={styles.footer}>{cameraname}</div>
+			<h3 className={styles.footer}>{cameraname}</h3>
 			{isAuthenticated && (
-				<h3 className={styles.footer}>
-					{" "}
-					Saved the result to my profile{" "}
-				</h3>
+				<p className={styles.footer}>Saved the result to My Page!</p>
 			)}
 		</div>
 	);

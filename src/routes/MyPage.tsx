@@ -11,6 +11,7 @@ import { Gallery, ModelSortDirection } from "../API";
 import { deleteGallery } from "../graphql/mutations";
 import styles from "./MyPage.module.css";
 import ResultData from "./ResultData";
+import ImageViewmy from "./Imageviewmy";
 
 const client = generateClient();
 let IMAGES_PER_PAGE = 6;
@@ -32,7 +33,11 @@ const MyPage = () => {
 	const [currentpage, setcurrentpage] = useState(0);
 	const [response, setresponse] = useState<Gallery2[] | undefined>(undefined);
 	const [len, setlen] = useState(0);
-	const [paginatedImages, setpaginatedImages] = useState<
+	const closeView = () => setSelectedImage(undefined);
+	const [paginatedImages1, setpaginatedImages1] = useState<
+		Gallery2[] | undefined
+	>(undefined);
+	const [paginatedImages2, setpaginatedImages2] = useState<
 		Gallery2[] | undefined
 	>(undefined);
 	const [selectedImage, setSelectedImage] = useState<Gallery2 | undefined>(
@@ -79,10 +84,18 @@ const MyPage = () => {
 	}, [cogid, isAuthenticated, triggerFetch, userSet]);
 	useEffect(() => {
 		if (fetchComplete) {
-			setpaginatedImages(
+			setpaginatedImages1(
 				response
 					? response.slice(
 							currentpage * IMAGES_PER_PAGE,
+							currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE / 2
+					  )
+					: undefined
+			);
+			setpaginatedImages2(
+				response
+					? response.slice(
+							currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE / 2,
 							currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE
 					  )
 					: undefined
@@ -138,6 +151,7 @@ const MyPage = () => {
 			} catch (e) {
 				alert("Delete Failed!");
 			}
+			closeView();
 		}
 	};
 
@@ -167,12 +181,14 @@ const MyPage = () => {
 
 	return (
 		<div>
-			<h3 className={styles.tag}> Previous Recommend Result: </h3>
+			<div className={styles.hrintro}>
+				<h2>Hello, {nicknam}!</h2>
+				<h3 className={styles.tag}> Previous Recommend Result: </h3>
+			</div>
 			<div className={styles.diagram}>
 				<img src={imgsrc} alt="Camera Diagram" />
 			</div>
-			<div className={styles.footer}>{cameraname}</div>
-			{nicknam && `Hello, ${nicknam}!`}
+			<h3 className={styles.footer}>{cameraname}</h3>
 			{showupdateForm && (
 				<div className={styles.formmodel}>
 					<GalleryUpdateForm
@@ -183,20 +199,40 @@ const MyPage = () => {
 						onSuccess={() => {
 							setTriggerFetch(triggerFetch + 1);
 							setupdateForm(false);
+							closeView();
 						}}
 					/>
 				</div>
 			)}
-			<div style={{ display: "flex", flexWrap: "wrap" }}>
-				{paginatedImages &&
-					paginatedImages.map((image, index) => (
+			<div className={styles.hrintro}>
+				<h3 className={styles.tag}> Your Photos </h3>
+			</div>
+			<div className={styles.photosContainer}>
+				{paginatedImages1 &&
+					paginatedImages1.map((image, index) => (
 						<div key={index} onClick={() => selectImage(image)}>
 							<img
 								src={image.modurl}
 								alt="Load Failed"
 								style={{
-									width: "150px",
-									height: "150px",
+									width: "300px",
+									height: "auto",
+									margin: "10px",
+								}}
+							/>
+						</div>
+					))}
+			</div>
+			<div className={styles.photosContainer}>
+				{paginatedImages2 &&
+					paginatedImages2.map((image, index) => (
+						<div key={index} onClick={() => selectImage(image)}>
+							<img
+								src={image.modurl}
+								alt="Load Failed"
+								style={{
+									width: "300px",
+									height: "auto",
 									margin: "10px",
 								}}
 							/>
@@ -204,29 +240,24 @@ const MyPage = () => {
 					))}
 			</div>
 			{selectedImage && (
-				<div>
-					<img
-						src={selectedImage.modurl}
-						alt="Load Failed"
-						style={{
-							width: "400px",
-							height: "400px",
-							margin: "40px",
-						}}
-					/>
-					Title: {selectedImage.gall.title}
-					<br></br>
-					Description: {selectedImage.gall.description}
-					<button onClick={() => galleryUpdate()}>Update</button>
-					<button onClick={() => galleryDelete()}>Delete</button>
-				</div>
+				<ImageViewmy
+					image={selectedImage}
+					onClose={closeView}
+					onUpdate={() => galleryUpdate()}
+					onDelete={() => galleryDelete()}
+				/>
 			)}
-			<div>
-				<button onClick={previousPage} disabled={currentpage === 0}>
+			<div className={styles.ButtonContainer}>
+				<button
+					onClick={previousPage}
+					className={styles.Button}
+					disabled={currentpage === 0}
+				>
 					Previous
 				</button>
 				<button
 					onClick={nextPage}
+					className={styles.Button}
 					disabled={
 						!response ||
 						currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE >= len

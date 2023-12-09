@@ -10,14 +10,17 @@ const RecommendationService = () => {
 	};
 	return (
 		<div className={styles.content}>
-			<h1>Which camera is right for me?</h1>
-			<p>
-				worried about having too many camera products? Get a
-				recommendation for the camera that's right for you by answering
-				a few questions!
-			</p>
-			<p> currently on development </p>
-			<button onClick={test}>GO TEST</button>
+			<div className={styles.text}>
+				<h1>Which camera is right for me?</h1>
+				<h4>
+					worried about having too many camera products? Get a
+					recommendation for the camera that's right for you by
+					answering a few questions!
+				</h4>
+				<button onClick={test} className={styles.Button}>
+					GO TEST
+				</button>
+			</div>
 		</div>
 	);
 };

@@ -1,27 +1,37 @@
 .content {
-    padding: 24px 48px 48px 48px;
+	padding: 24px 48px 48px 48px;
 }
-
+.hrintro {
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+	text-align: center;
+}
 .hrTitle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 30px;
-    text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+	text-align: center;
 }
 
 .hrLine {
-    width: 40%;
-    height: 1px;
-    background-color: black;
+	width: 40%;
+	height: 1px;
+	background-color: black;
 }
 
 .cameraImg {
-    display: inline-block;
-    width: 700px;
+	display: inline-block;
+	width: 50%;
+}
+.imgcontainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .para {
-    display: inline-block;
-    white-space: pre-wrap;
+	display: inline-block;
+	white-space: pre-wrap;
 }

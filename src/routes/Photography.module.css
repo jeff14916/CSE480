@@ -1,6 +1,34 @@
 .content {
-    display: flex;
-    padding: 24px 48px 48px 48px;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	padding: 24px 48px 48px 48px;
+	justify-content: center;
+	align-items: center;
+}
+.hrintro {
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+	text-align: center;
+}
+
+.hrTitle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	text-align: center;
+}
+
+.hrLine {
+	height: 1px;
+	background-color: black;
+}
+
+.cameraImg {
+	display: inline-block;
+	width: 50%;
+}
+.imgcontainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

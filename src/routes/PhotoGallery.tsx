@@ -9,6 +9,7 @@ import { GalleryCreateForm } from "../ui-components";
 import styles from "./PhotoGallery.module.css";
 import { getUrl, GetUrlInput } from "@aws-amplify/storage";
 import { Gallery, ModelSortDirection } from "../API";
+import ImageView from "./Imageview";
 
 const client = generateClient();
 let IMAGES_PER_PAGE = 6;
@@ -27,7 +28,11 @@ const PhotoGallery = () => {
 	const [currentpage, setcurrentpage] = useState(0);
 	const [response, setresponse] = useState<Gallery2[] | undefined>(undefined);
 	const [len, setlen] = useState(0);
-	const [paginatedImages, setpaginatedImages] = useState<
+	const closeView = () => setSelectedImage(undefined);
+	const [paginatedImages1, setpaginatedImages1] = useState<
+		Gallery2[] | undefined
+	>(undefined);
+	const [paginatedImages2, setpaginatedImages2] = useState<
 		Gallery2[] | undefined
 	>(undefined);
 	const [selectedImage, setSelectedImage] = useState<Gallery2 | undefined>(
@@ -73,10 +78,18 @@ const PhotoGallery = () => {
 	}, [triggerFetch]);
 	useEffect(() => {
 		if (fetchComplete) {
-			setpaginatedImages(
+			setpaginatedImages1(
 				response
 					? response.slice(
 							currentpage * IMAGES_PER_PAGE,
+							currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE / 2
+					  )
+					: undefined
+			);
+			setpaginatedImages2(
+				response
+					? response.slice(
+							currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE / 2,
 							currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE
 					  )
 					: undefined
@@ -130,8 +143,17 @@ const PhotoGallery = () => {
 	};
 
 	return (
-		<div>
-			<button onClick={galleryCreate}>create</button>
+		<div className={styles.content}>
+			<div className={styles.hrintro}>
+				<h2>
+					Photo Gallery: Share your photo and photography knowledge!
+				</h2>
+			</div>
+			<div className={styles.ButtonContainer}>
+				<button onClick={galleryCreate} className={styles.Button}>
+					Upload Photo
+				</button>
+			</div>
 			{showcreateForm && (
 				<div className={styles.formmodel}>
 					<GalleryCreateForm
@@ -157,16 +179,32 @@ const PhotoGallery = () => {
 					></GalleryCreateForm>
 				</div>
 			)}
-			<div style={{ display: "flex", flexWrap: "wrap" }}>
-				{paginatedImages &&
-					paginatedImages.map((image, index) => (
+			<div className={styles.photosContainer}>
+				{paginatedImages1 &&
+					paginatedImages1.map((image, index) => (
 						<div key={index} onClick={() => selectImage(image)}>
 							<img
 								src={image.modurl}
 								alt="Load Failed"
 								style={{
-									width: "150px",
-									height: "150px",
+									width: "300px",
+									height: "auto",
+									margin: "10px",
+								}}
+							/>
+						</div>
+					))}
+			</div>
+			<div className={styles.photosContainer}>
+				{paginatedImages2 &&
+					paginatedImages2.map((image, index) => (
+						<div key={index} onClick={() => selectImage(image)}>
+							<img
+								src={image.modurl}
+								alt="Load Failed"
+								style={{
+									width: "300px",
+									height: "auto",
 									margin: "10px",
 								}}
 							/>
@@ -174,27 +212,19 @@ const PhotoGallery = () => {
 					))}
 			</div>
 			{selectedImage && (
-				<div>
-					<img
-						src={selectedImage.modurl}
-						alt="Load Failed"
-						style={{
-							width: "400px",
-							height: "400px",
-							margin: "40px",
-						}}
-					/>
-					Title: {selectedImage.gall.title}
-					<br></br>
-					Description: {selectedImage.gall.description}
-				</div>
+				<ImageView image={selectedImage} onClose={closeView} />
 			)}
-			<div>
-				<button onClick={previousPage} disabled={currentpage === 0}>
+			<div className={styles.ButtonContainer}>
+				<button
+					onClick={previousPage}
+					className={styles.Button}
+					disabled={currentpage === 0}
+				>
 					Previous
 				</button>
 				<button
 					onClick={nextPage}
+					className={styles.Button}
 					disabled={
 						!response ||
 						currentpage * IMAGES_PER_PAGE + IMAGES_PER_PAGE >= len

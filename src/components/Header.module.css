@@ -28,6 +28,7 @@
 .logo_txt {
 	white-space: pre-wrap;
 	text-align: center;
+	white-space: nowrap;
 }
 
 .navul {
@@ -40,6 +41,7 @@
 	font-size: 18px;
 	text-decoration: none;
 	color: black;
+	white-space: nowrap;
 }
 .navli:hover,
 .navli:focus {

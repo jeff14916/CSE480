@@ -6,7 +6,7 @@
 	background-color: white;
 	padding: 20px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-	z-index: 1000; /* Ensure it's above other content */
+	z-index: 1001; /* Ensure it's above other content */
 	max-width: 100%; /* Limit the width */
 	max-height: 80%; /* Limit the height */
 	overflow-y: auto; /* Add scroll for overflow */
@@ -17,14 +17,14 @@
 }
 
 .diagram {
-	width: 80%;
+	width: 40%;
 	margin: auto;
 	padding: 10px;
 	border: 1px solid #ccc;
 	position: relative;
 }
 
-.camera-diagram img {
+.diagram img {
 	width: 100%;
 	height: auto;
 }
@@ -35,4 +35,41 @@
 
 .footer {
 	margin-top: 20px;
+	text-align: center;
+}
+.hrintro {
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+	text-align: center;
+}
+.photosContainer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+}
+.ButtonContainer {
+	display: flex;
+	justify-content: center;
+}
+.Button {
+	background-color: #bfa0ed;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	margin: 10px;
+	gap: 10px;
+}
+.Button:disabled {
+	background-color: #ccc;
+}
+
+.Button:hover {
+	background-color: #ad8edb;
+}
+.Button:disabled:hover {
+	background-color: #ccc;
 }

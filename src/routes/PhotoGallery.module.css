@@ -1,3 +1,7 @@
+.content {
+	padding: 24px 48px 48px 48px;
+}
+
 .formmodel {
 	position: fixed;
 	top: 50%;
@@ -10,4 +14,40 @@
 	max-width: 100%; /* Limit the width */
 	max-height: 80%; /* Limit the height */
 	overflow-y: auto; /* Add scroll for overflow */
+}
+.hrintro {
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+	text-align: center;
+}
+.photosContainer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+}
+.ButtonContainer {
+	display: flex;
+	justify-content: center;
+}
+.Button {
+	background-color: #bfa0ed;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	margin: 10px;
+	gap: 10px;
+}
+.Button:disabled {
+	background-color: #ccc;
+}
+
+.Button:hover {
+	background-color: #ad8edb;
+}
+.Button:disabled:hover {
+	background-color: #ccc;
 }

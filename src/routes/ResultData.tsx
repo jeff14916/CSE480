@@ -3,11 +3,18 @@ const Resultdata = (param: string | null) => {
 	let cameraname = "";
 	if (!param) return ["", ""];
 	switch (param) {
-		case "1100":
+		case "1111": // not sure
+		case "1121":
+			imgsrc =
+				"https://www.the-digital-picture.com/Images/Review/Canon-EOS-Rebel-SL3.jpg";
+			cameraname = "Canon EOS Rebel SL3 (EOS 250D / EOS 200D Mark II)";
+			break;
+		case "1131":
 			imgsrc =
 				"https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/5169853226/B.jpg?931000000";
 			cameraname = "Canon EOS Rebel T7 (EOS 2000D)";
 			break;
+
 		case "1200":
 			imgsrc =
 				"https://www.tradeinn.com/f/13734/137344191/canon-%EC%82%AC%EC%95%85%ED%95%9C-%EC%B9%B4%EB%A9%94%EB%9D%BC-eos-m100-15-45-mm.jpg";
@@ -44,7 +51,7 @@ const Resultdata = (param: string | null) => {
 			break;
 		default:
 			imgsrc = "";
-			cameraname = "No Preferences (will update later)";
+			cameraname = "ERROR";
 	}
 	return [imgsrc, cameraname];
 };

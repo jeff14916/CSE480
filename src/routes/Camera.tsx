@@ -13,12 +13,18 @@ const Camera = () => {
 	return (
 		<div className={styles.content}>
 			<div>
+				<div className={styles.hrintro}>
+					<h2>
+						There are three major types of Cameras: DSLR,
+						Mirrorless, and Film camera.
+					</h2>
+				</div>
 				<div className={styles.hrTitle}>
 					<div className={styles.hrLine}></div>
 					<h3>DSLR Camera</h3>
 					<div className={styles.hrLine}></div>
 				</div>
-				<div>
+				<div className={styles.imgcontainer}>
 					<img
 						className={styles.cameraImg}
 						src="https://global.canon/en/technology/structure/dslr/img/02.jpg"
@@ -33,7 +39,7 @@ const Camera = () => {
 					<h3>Mirrorless Camera</h3>
 					<div className={styles.hrLine}></div>
 				</div>
-				<div>
+				<div className={styles.imgcontainer}>
 					<img
 						className={styles.cameraImg}
 						src="https://global.canon/en/technology/structure/mcamera/img/image01.jpg"
@@ -48,7 +54,7 @@ const Camera = () => {
 					<h3>Film Camera</h3>
 					<div className={styles.hrLine}></div>
 				</div>
-				<div>
+				<div className={styles.imgcontainer}>
 					<img
 						className={styles.cameraImg}
 						src="https://www.filmcameraexpert.com/wp-content/uploads/2020/11/learn-film-camera-parts.jpg"

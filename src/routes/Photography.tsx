@@ -6,18 +6,30 @@ const Photography = () => {
 	return (
 		<div className={styles.content}>
 			<div>
-				<p>
-					Taking photos can feel overwhelming with so much to
-					consider, right? For now, let's focus on capturing images
-					based on the elements we're going to share with you!
-				</p>
+				<div className={styles.hrintro}>
+					<h2>
+						Taking photos can feel overwhelming with so much to
+						consider, right? For now, let's focus on capturing
+						images based on the elements we're going to share with
+						you!
+					</h2>
+				</div>
+
 				<br></br>
-				<h4>GUIDE TO LEARNING PHOTOGRAPHY: Lighting</h4>
+				<div className={styles.hrTitle}>
+					<div className={styles.hrLine}></div>
+					<h3>GUIDE TO LEARNING PHOTOGRAPHY: Lighting</h3>
+					<div className={styles.hrLine}></div>
+				</div>
 				<div>
-					<img
-						src="https://markbrion.com/wp-content/uploads/light-and-mist-1.jpg"
-						alt="img"
-					></img>
+					<div className={styles.imgcontainer}>
+						<img
+							className={styles.cameraImg}
+							src="https://markbrion.com/wp-content/uploads/light-and-mist-1.jpg"
+							alt="img"
+						></img>
+					</div>
+
 					<p>
 						When it comes to photography, the type of lighting that
 						you use is the most important element in the composition
@@ -46,12 +58,19 @@ const Photography = () => {
 					</p>
 				</div>
 				<div>
-					<h4>GUIDE TO LEARNING PHOTOGRAPHY: Proportion</h4>
+					<div className={styles.hrTitle}>
+						<div className={styles.hrLine}></div>
+						<h3>GUIDE TO LEARNING PHOTOGRAPHY: Proportion</h3>
+						<div className={styles.hrLine}></div>
+					</div>
 					<div>
-						<img
-							src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTynSFUM2yAr2e_T6DyliIVSaO_WDjZpQ8nxgINvBj3pQ&s"
-							alt="img"
-						/>
+						<div className={styles.imgcontainer}>
+							<img
+								className={styles.cameraImg}
+								src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTynSFUM2yAr2e_T6DyliIVSaO_WDjZpQ8nxgINvBj3pQ&s"
+								alt="img"
+							></img>
+						</div>
 						<p>
 							**Choose Aspect Ratio Depending on Your Audience**
 							You can choose the proportions depending on the
