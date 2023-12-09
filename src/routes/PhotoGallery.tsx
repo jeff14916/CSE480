@@ -99,7 +99,6 @@ const PhotoGallery = () => {
 	useEffect(() => {
 		const setuser = async () => {
 			if (!isAuthenticated) {
-				alert("Not logged In!");
 				navigate(`/login?returnURL=/gallery`);
 			}
 			if (isAuthenticated) {

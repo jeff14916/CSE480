@@ -16,7 +16,6 @@ const LoginPage = () => {
 	const returnURL = queryParams.get("returnURL");
 	useEffect(() => {
 		if (isAuthenticated) {
-			alert("Already logged In!");
 			navigate(returnURL || "/");
 		}
 		const listener = (data: { payload: { event: any } }) => {
@@ -24,7 +23,6 @@ const LoginPage = () => {
 				case "signedIn":
 					setAuthStatus(true);
 					navigate(returnURL || "/");
-					alert("Log In Success!");
 					hubListenerCancel();
 					break;
 			}

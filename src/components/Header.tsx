@@ -16,7 +16,6 @@ const Header = () => {
 		try {
 			await signOut();
 			setAuthStatus(false);
-			alert("Logout Success!");
 			window.location.reload();
 		} catch (error) {
 			console.error("Error during logout", error);

@@ -110,7 +110,6 @@ const MyPage = () => {
 
 	useEffect(() => {
 		if (!isAuthenticated) {
-			alert("Not logged In!");
 			navigate(`/login?returnURL=/mypage`);
 		}
 		const setuser = async () => {
