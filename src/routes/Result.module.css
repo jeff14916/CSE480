@@ -4,14 +4,15 @@
 }
 
 .diagram {
-	width: 80%;
+	width: 40%;
 	margin: auto;
 	padding: 10px;
+	overflow: hidden;
+	display: flex;
 	border: 1px solid #ccc;
 	position: relative;
 }
-
-.camera-diagram img {
+.diagram img {
 	width: 100%;
 	height: auto;
 }

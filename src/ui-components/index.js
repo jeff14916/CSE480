@@ -6,4 +6,5 @@
 
 export { default as GalleryCreateForm } from "./GalleryCreateForm";
 export { default as GalleryUpdateForm } from "./GalleryUpdateForm";
+export { default as NewForm1 } from "./NewForm1";
 export { default as studioTheme } from "./studioTheme";

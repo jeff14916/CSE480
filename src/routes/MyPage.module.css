@@ -20,6 +20,8 @@
 	width: 40%;
 	margin: auto;
 	padding: 10px;
+	overflow: hidden;
+	display: flex;
 	border: 1px solid #ccc;
 	position: relative;
 }

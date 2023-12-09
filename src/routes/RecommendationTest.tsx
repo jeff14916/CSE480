@@ -14,52 +14,70 @@ const RecommendationTest = () => {
 	const [selectedPhotoType, setSelectedPhotoType] = useState("");
 	const [selectedPriceRange, setSelectedPriceRange] = useState("");
 	const handleBrandChange = (type: string) => setSelectedBrand(type);
-	const handleCameraTypeChange = (type: string) =>
+	const handleCameraTypeChange = (type: string) => {
 		setSelectedCameraType(type);
+	};
+
 	const handlePhotoTypeChange = (type: string) => setSelectedPhotoType(type);
 	const handlePriceRangeChange = (type: string) =>
 		setSelectedPriceRange(type);
 
 	const onSubmit = (data: any) => {
+		if (!selectedBrand || !selectedCameraType || !selectedPriceRange) {
+			const msg =
+				"You shoud answer Question" +
+				(!selectedBrand ? " 1" : "") +
+				(!selectedCameraType ? " 2" : "") +
+				(!selectedPriceRange ? " 3" : "") +
+				"  !";
+			alert(msg);
+			return;
+		}
 		let param = 0;
-		if (data.brand === "Canon") {
+		if (selectedBrand === "Canon") {
 			param += 1000;
 		}
-		if (data.brand === "Sony") {
+		if (selectedBrand === "Sony") {
 			param += 2000;
 		}
-		if (data.brand === "Nikon") {
+		if (selectedBrand === "Nikon") {
 			param += 3000;
 		}
-		if (data.brand === "No preference") {
+		if (selectedBrand === "No preference") {
 			param += 4000;
 		}
-		if (data.cameraType === "DSLR") {
+		if (selectedCameraType === "DSLR") {
 			param += 100;
 		}
-		if (data.cameraType === "Mirrorless") {
+		if (selectedCameraType === "Mirrorless") {
 			param += 200;
 		}
-		if (data.cameraType === "Film") {
+		if (selectedCameraType === "Film") {
 			param += 300;
 		}
-		if (data.photokind === "Landscape") {
-			param += 10;
-		}
-		if (data.photokind === "Portrait") {
-			param += 20;
-		}
-		if (data.photokind === "Thing") {
-			param += 30;
-		}
-		if (data.priceRange === "Under 500$") {
+		if (selectedPhotoType === "Landscape") {
 			param += 1;
 		}
-		if (data.priceRange === "500$ to 1000$") {
+		if (selectedPhotoType === "Portrait") {
 			param += 2;
 		}
-		if (data.priceRange === "Over 1000$") {
+		if (selectedPhotoType === "Thing") {
 			param += 3;
+		}
+		if (!selectedPhotoType) {
+			param += 4;
+		}
+		if (selectedPriceRange === "Under 500$") {
+			param += 10;
+		}
+		if (selectedPriceRange === "500$ to 1000$") {
+			param += 20;
+		}
+		if (selectedPriceRange === "Over 1000$") {
+			param += 30;
+		}
+		if (selectedPriceRange === "No preference") {
+			param += 40;
 		}
 		if (isAuthenticated) {
 			UpdateAttributes(param);
@@ -76,16 +94,19 @@ const RecommendationTest = () => {
 		});
 	};
 	useEffect(() => {
-		if (selectedBrand === "Sony") {
-			setSelectedCameraType("Mirrorless");
-		}
-		if (
-			selectedBrand === "Nikon" &&
-			selectedCameraType === "Mirrorless" &&
-			selectedPriceRange === "Under 500$"
-		) {
-			setSelectedPriceRange("");
-		}
+		const a = () => {
+			if (selectedBrand === "Sony") {
+				setSelectedCameraType("Mirrorless");
+			}
+			if (
+				selectedBrand === "Nikon" &&
+				selectedCameraType === "Mirrorless" &&
+				selectedPriceRange === "Under 500$"
+			) {
+				setSelectedPriceRange("");
+			}
+		};
+		a();
 	}, [selectedBrand, selectedCameraType, selectedPriceRange]);
 
 	return (
@@ -159,31 +180,7 @@ const RecommendationTest = () => {
 					</p>
 				)}
 				<h4 className={styles.text}>
-					3. What kind of photos do you plan to take?
-				</h4>
-				<div className={styles.buttonGroup}>
-					{["Landscape", "Portrait", "Thing"].map((kind) => (
-						<label
-							key={kind}
-							className={`${styles.buttonLabel} ${
-								selectedPhotoType === kind
-									? styles.selected
-									: ""
-							}`}
-							onClick={() => handlePhotoTypeChange(kind)}
-						>
-							<input
-								type="radio"
-								value={kind}
-								{...register("photokind")}
-								className={styles.hiddenRadio}
-							/>
-							{kind}
-						</label>
-					))}
-				</div>
-				<h4 className={styles.text}>
-					4. What price range are you considering for a camera?
+					3. What price range are you considering for a camera?
 				</h4>
 				<div className={styles.buttonGroup}>
 					{["Under 500$", "500$ to 1000$", "Over 1000$"].map(
@@ -222,6 +219,30 @@ const RecommendationTest = () => {
 							No under 500$ Camera for Nikon Mirrorless Camera!
 						</p>
 					)}
+				<h4 className={styles.text}>
+					4. (Optional) What kind of photos do you plan to take?
+				</h4>
+				<div className={styles.buttonGroup}>
+					{["Landscape", "Portrait", "Thing"].map((kind) => (
+						<label
+							key={kind}
+							className={`${styles.buttonLabel} ${
+								selectedPhotoType === kind
+									? styles.selected
+									: ""
+							}`}
+							onClick={() => handlePhotoTypeChange(kind)}
+						>
+							<input
+								type="radio"
+								value={kind}
+								{...register("photokind")}
+								className={styles.hiddenRadio}
+							/>
+							{kind}
+						</label>
+					))}
+				</div>
 				<div className={styles.submitButtonContainer}>
 					<button type="submit" className={styles.submitButton}>
 						Find My Camera

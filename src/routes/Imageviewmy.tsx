@@ -32,6 +32,9 @@ const ImageViewmy = ({
 					className={styles.modalImage}
 				/>
 				<p>
+					<strong>Taken by: {image.gall.nickname}</strong>
+				</p>
+				<p>
 					<strong>Title:</strong> {image.gall.title}
 				</p>
 				<p>

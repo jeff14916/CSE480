@@ -60,22 +60,23 @@ const Header = () => {
 							</Link>
 						</div>
 					)}
-
-					{isAuthenticated ? (
-						<Button
-							onClick={handleLogout}
-							className={styles.signInBtn}
-						>
-							Logout
-						</Button>
-					) : (
-						<Button
-							onClick={handleLogin}
-							className={styles.signInBtn}
-						>
-							Login
-						</Button>
-					)}
+					<div className={styles.ButtonContainer}>
+						{isAuthenticated ? (
+							<Button
+								onClick={handleLogout}
+								className={styles.Button}
+							>
+								Logout
+							</Button>
+						) : (
+							<Button
+								onClick={handleLogin}
+								className={styles.Button}
+							>
+								Login
+							</Button>
+						)}
+					</div>
 				</div>
 			</header>
 			<div className={styles.ww}></div>

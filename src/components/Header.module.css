@@ -48,13 +48,23 @@
 	transform: scale(1.1);
 }
 
-.signInBtn {
-	padding: 16px 24px;
-	border: 1px solid black;
-	text-decoration: none;
-	color: black;
+.ButtonContainer {
+	display: flex;
+	justify-content: center;
 }
-.signInBtn:hover,
-.signInBtn.focus {
-	transform: scale(1.1);
+.Button {
+	background-color: #fff;
+	color: black;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	margin: 10px;
+	gap: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+.Button:hover {
+	background-color: #ccc;
 }

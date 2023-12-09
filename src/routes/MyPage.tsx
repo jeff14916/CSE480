@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import "@aws-amplify/ui-react/styles.css";
 import { generateClient } from "aws-amplify/api";
 import { galleryByOwner } from "../graphql/queries";
-import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
+import {
+	fetchUserAttributes,
+	getCurrentUser,
+	updateUserAttribute,
+} from "aws-amplify/auth";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
-import { GalleryUpdateForm } from "../ui-components";
+import { GalleryUpdateForm, NewForm1 } from "../ui-components";
 import { getUrl, GetUrlInput } from "@aws-amplify/storage";
 import { Gallery, ModelSortDirection } from "../API";
 import { deleteGallery } from "../graphql/mutations";
@@ -23,6 +27,7 @@ type Gallery2 = {
 const MyPage = () => {
 	document.title = "My Page";
 	const [showupdateForm, setupdateForm] = useState(false);
+	const [shownickForm, setnickForm] = useState(false);
 	const navigate = useNavigate();
 	const [userSet, setuserSet] = useState(false);
 	const [nicknam, setnicknam] = useState("");
@@ -112,7 +117,6 @@ const MyPage = () => {
 			if (isAuthenticated) {
 				try {
 					const attr = await fetchUserAttributes();
-					console.log(attr);
 					setnicknam(attr.nickname ? attr.nickname : "");
 					const customresult = attr["custom:result"];
 					let a,
@@ -178,17 +182,55 @@ const MyPage = () => {
 		const repurl = (await getUrl(urlinput)).url.href;
 		return repurl;
 	};
+	const nickChange = () => {
+		setnickForm(true);
+	};
+	const UpdateAttributes = async (param: string) => {
+		try {
+			await updateUserAttribute({
+				userAttribute: {
+					attributeKey: "nickname",
+					value: param,
+				},
+			});
+			setnicknam(param);
+		} catch (e) {}
+	};
 
 	return (
 		<div>
 			<div className={styles.hrintro}>
 				<h2>Hello, {nicknam}!</h2>
+				<h3 className={styles.tag}> Change nickname </h3>
+			</div>
+			<div className={styles.ButtonContainer}>
+				<button onClick={nickChange} className={styles.Button}>
+					Change nickname
+				</button>
+			</div>
+			<div className={styles.hrintro}>
 				<h3 className={styles.tag}> Previous Recommend Result: </h3>
 			</div>
 			<div className={styles.diagram}>
 				<img src={imgsrc} alt="Camera Diagram" />
 			</div>
 			<h3 className={styles.footer}>{cameraname}</h3>
+			{shownickForm && (
+				<div className={styles.formmodel}>
+					<NewForm1
+						onSubmit={(fields) => {
+							setnickForm(false);
+							const newnick = fields.Field0;
+							if (newnick) {
+								UpdateAttributes(newnick);
+							}
+						}}
+						onCancel={() => {
+							setnickForm(false);
+						}}
+					/>
+				</div>
+			)}
 			{showupdateForm && (
 				<div className={styles.formmodel}>
 					<GalleryUpdateForm
