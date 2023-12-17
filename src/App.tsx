@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styles from "./App.module.css";
-import Header from "./components/Header";
+import Header from "./header/Header";
 import Home from "./routes/Home";
 import Camera from "./routes/Camera";
 import RecommendationService from "./routes/RecommendationService";

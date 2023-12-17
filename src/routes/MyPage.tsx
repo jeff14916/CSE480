@@ -207,13 +207,21 @@ const MyPage = () => {
 					Change nickname
 				</button>
 			</div>
-			<div className={styles.hrintro}>
-				<h3 className={styles.tag}> Previous Recommend Result: </h3>
-			</div>
-			<div className={styles.diagram}>
-				<img src={imgsrc} alt="Camera Diagram" />
-			</div>
-			<h3 className={styles.footer}>{cameraname}</h3>
+			{imgsrc && (
+				<div>
+					<div className={styles.hrintro}>
+						<h3 className={styles.tag}>
+							{" "}
+							Previous Recommend Result:{" "}
+						</h3>
+					</div>
+					<div className={styles.diagram}>
+						<img src={imgsrc} alt="Camera Diagram" />
+					</div>
+					<h3 className={styles.footer}>{cameraname}</h3>
+				</div>
+			)}
+
 			{shownickForm && (
 				<div className={styles.formmodel}>
 					<NewForm1

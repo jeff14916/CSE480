@@ -9,7 +9,6 @@ const Header = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	// Construct the returnURL
 	const returnURL = location.pathname;
 
 	const handleLogout = async () => {
